@@ -1,3 +1,4 @@
+import { CardFontFamilies } from "./CardFontFamily";
 import { CardCustomText } from "./CustomText";
 
 export interface CardSource extends CardCustomText {}
@@ -7,5 +8,6 @@ export const DEFAULT_CARD_SOURCE: CardSource = {
   fontSize: 16,
   color: "#ffffff",
   maxLength: 50,
-  type: "text"
+  type: "text",
+  fontFamily: CardFontFamilies.IOWAN_OLD_STYLE
 };

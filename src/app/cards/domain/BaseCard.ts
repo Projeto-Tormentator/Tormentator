@@ -2,6 +2,9 @@ import { AccentColor } from "@/config/colors";
 import { CARD_SIZES, CardSize } from "./core/CardSize";
 import { CARD_TYPES, CardType } from "./core/CardType";
 import { CardCustomText } from "./fields/CustomText";
+import { CardTitle, DEFAULT_CARD_TITLE } from "./fields/CardTitle";
+import { DEFAULT_CARD_DESCRIPTION } from "./fields/CardDescription";
+import { DEFAULT_CARD_SOURCE } from "./fields/CardSource";
 
 export interface BaseCardData {
   type: CardType;
@@ -20,7 +23,7 @@ export abstract class BaseCard implements BaseCardData {
   backgroundColor!: string;
   borderColor!: string;
   borderWidth!: number;
-  title!: CardCustomText;
+  title!: CardTitle;
   description!: CardCustomText;
   source!: CardCustomText;
 
@@ -30,15 +33,19 @@ export abstract class BaseCard implements BaseCardData {
     backgroundColor: "#ffffff",
     borderColor: "#000000",
     borderWidth: 1,
-    title: { text: "", fontSize: 16, color: "#000000" },
-    description: { text: "", fontSize: 14, color: "#333333" },
-    source: { text: "", fontSize: 12, color: "#666666" }
+    title: DEFAULT_CARD_TITLE,
+    description: DEFAULT_CARD_DESCRIPTION,
+    source: DEFAULT_CARD_SOURCE
   };
 
   constructor(data: Partial<BaseCardData> = {}) {
     const init = { ...BaseCard.defaults, ...data } as BaseCardData;
     Object.assign(this, init);
-  } 
+  }
+  
+  getDefaults(): BaseCardData {
+    return { ...BaseCard.defaults };
+  }
 }
 
 export interface BaseCardConfig {

@@ -1,0 +1,80 @@
+/* Tormenta 20 Font */
+@font-face {
+  font-family: "Tormenta 20";
+  src: url("/assets/fonts/Tormenta20.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Benguiat Font */
+@font-face {
+  font-family: "Benguiat";
+  src: url("/assets/fonts/Benguiat.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Iowan Old Style Font - Regular */
+@font-face {
+  font-family: "Iowan Old Style";
+  src: url("/assets/fonts/Iowan Old Style Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Iowan Old Style Font - Bold */
+@font-face {
+  font-family: "Iowan Old Style";
+  src: url("/assets/fonts/Iowan Old Style Bold.otf") format("opentype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Iowan Old Style Font - Italic */
+@font-face {
+  font-family: "Iowan Old Style";
+  src: url("/assets/fonts/Iowan Old Style Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Iowan Old Style Font - Bold Italic */
+@font-face {
+  font-family: "Iowan Old Style";
+  src: url("/assets/fonts/Iowan Old Style Bold Italic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Source Sans Pro Font - Regular */
+@font-face {
+  font-family: "Source Sans Pro";
+  src: url("/assets/fonts/Source Sans Pro Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Source Sans Pro Font - Bold */
+@font-face {
+  font-family: "Source Sans Pro";
+  src: url("/assets/fonts/Source Sans Pro Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Source Sans Pro Font - Italic */
+@font-face {
+  font-family: "Source Sans Pro";
+  src: url("/assets/fonts/Source Sans Pro Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
