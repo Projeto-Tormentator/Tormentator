@@ -1,11 +1,12 @@
-import { Scroll, Dices, Users, BookType } from "lucide-react";
+import { Dices, Users, BookType } from "lucide-react";
 import Feature, { FeatureProps } from "./Feature";
+import { TbCards } from "react-icons/tb";
 
 const FeatureList: FeatureProps[] = [
   {
     title: "Cartas",
     description: "Crie e gerencie cartas de RPG de forma fácil e intuitiva.",
-    icon: <Scroll className="h-6 w-6" />,
+    icon: <TbCards className="h-6 w-6" />,
     accent: "purple",
     link: "/cards",
     isComingSoon: true,
