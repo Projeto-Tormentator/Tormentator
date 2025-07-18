@@ -18,7 +18,7 @@ export class SkillCard extends BaseCard implements SkillCardData {
       text: "",
       fontSize: 12,
       color: "#888888",
-      maxLength: 100,
+      maxLength: 50,
       type: "text",
       fontFamily: CardFontFamilies.SOURCESANS_PRO
     }
