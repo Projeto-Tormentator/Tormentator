@@ -1,6 +1,6 @@
 export interface CardTextAlignData {
   name: string; // Name of the text alignment
-  cssValue: string; // CSS value for the text-align property
+  cssValue: 'left' | 'center' | 'right' | 'justify'; // CSS value for the text-align property
 }
 
 export type CardTextAlign =

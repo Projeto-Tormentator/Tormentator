@@ -5,15 +5,11 @@ export interface CardTextStyleData {
 
 export type CardTextStyle =
   'NORMAL'
-  | 'ITALIC'
-  | 'UNDERLINE'
-  | 'STRIKETHROUGH';
+  | 'ITALIC';
 
 export const CardTextStyles: Record<CardTextStyle, CardTextStyle> = {
   NORMAL: 'NORMAL',
-  ITALIC: 'ITALIC',
-  UNDERLINE: 'UNDERLINE',
-  STRIKETHROUGH: 'STRIKETHROUGH'
+  ITALIC: 'ITALIC'
 };
 
 export const CardTextStylesConfig: Record<CardTextStyle, CardTextStyleData> = {
@@ -24,13 +20,5 @@ export const CardTextStylesConfig: Record<CardTextStyle, CardTextStyleData> = {
   ITALIC: {
     name: 'Itálico',
     cssValue: 'italic',
-  },
-  UNDERLINE: {
-    name: 'Sublinhado',
-    cssValue: 'underline',
-  },
-  STRIKETHROUGH: {
-    name: 'Tachado',
-    cssValue: 'line-through',
   }
 };
