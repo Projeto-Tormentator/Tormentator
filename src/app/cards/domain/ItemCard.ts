@@ -11,7 +11,7 @@ export interface ItemCardData extends BaseCardData {
 }
 
 export class ItemCard extends BaseCard implements ItemCardData {
-  static defaults: ItemCardData = {
+  static cutomDefaults: ItemCardData = {
     type: CARD_TYPES.ITEM,
     size: CARD_SIZES.NORMAL,
     origin: {
@@ -24,16 +24,19 @@ export class ItemCard extends BaseCard implements ItemCardData {
     }
   } as ItemCardData;
 
+  defaults: ItemCardData | undefined;
+
   origin: CardCustomText;
 
   constructor(data: Partial<ItemCardData> = {}) {
-    const full = deepMerge({...ItemCard.defaults}, data) as ItemCardData;
+    const full = deepMerge({...ItemCard.cutomDefaults}, data) as ItemCardData;
     super(full);
     this.origin = full.origin;
+    this.defaults = deepMerge({ ...BaseCard.defaults }, { ...ItemCard.cutomDefaults }) as ItemCardData;
   }
 
   getDefaults(): ItemCardData {
-    return { ...ItemCard.defaults };
+    return this.defaults || ItemCard.cutomDefaults;
   }
 }
 

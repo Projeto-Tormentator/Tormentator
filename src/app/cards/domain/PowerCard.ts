@@ -11,7 +11,7 @@ export interface PowerCardData extends BaseCardData {
 }
 
 export class PowerCard extends BaseCard implements PowerCardData {
-  static defaults: PowerCardData = {
+  static customDefaults: PowerCardData = {
     type: CARD_TYPES.POWER,
     size: CARD_SIZES.NORMAL,
     origin: {
@@ -24,16 +24,19 @@ export class PowerCard extends BaseCard implements PowerCardData {
     }
   } as PowerCardData;
 
+  defaults: PowerCardData | undefined;
+
   origin: CardCustomText;
 
   constructor(data: Partial<PowerCardData> = {}) {
-    const full = deepMerge({ ...PowerCard.defaults }, data) as PowerCardData;
+    const full = deepMerge({ ...PowerCard.customDefaults }, data) as PowerCardData;
     super(full);
     this.origin = full.origin;
+    this.defaults = deepMerge({ ...BaseCard.defaults }, { ...PowerCard.customDefaults }) as PowerCardData;
   }
 
   getDefaults(): PowerCardData {
-    return { ...PowerCard.defaults };
+    return this.defaults || PowerCard.customDefaults;
   }
 }
 

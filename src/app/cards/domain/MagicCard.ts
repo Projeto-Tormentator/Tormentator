@@ -11,7 +11,7 @@ export interface MagicCardData extends BaseCardData {
 }
 
 export class MagicCard extends BaseCard implements MagicCardData {
-  static defaults: MagicCardData = {
+  static customDefaults: MagicCardData = {
     type: CARD_TYPES.MAGIC,
     size: CARD_SIZES.NORMAL,
     origin: {
@@ -24,16 +24,19 @@ export class MagicCard extends BaseCard implements MagicCardData {
     }
   } as MagicCardData;
 
+  defaults: MagicCardData | undefined;
+
   origin: CardCustomText;
 
   constructor(data: Partial<MagicCardData> = {}) {
-    const full = deepMerge({ ...MagicCard.defaults }, data) as MagicCardData;
+    const full = deepMerge({ ...MagicCard.customDefaults }, data) as MagicCardData;
     super(full);
     this.origin = full.origin;
+    this.defaults = deepMerge({ ...BaseCard.defaults }, { ...MagicCard.customDefaults }) as MagicCardData;
   }
 
   getDefaults(): MagicCardData {
-    return { ...MagicCard.defaults };
+    return this.defaults || MagicCard.customDefaults;
   }
 }
 

@@ -11,7 +11,7 @@ export interface SkillCardData extends BaseCardData {
 }
 
 export class SkillCard extends BaseCard implements SkillCardData {
-  static defaults: SkillCardData = {
+  static customDefaults: SkillCardData = {
     type: CARD_TYPES.SKILL,
     size: CARD_SIZES.NORMAL,
     origin: {
@@ -24,16 +24,19 @@ export class SkillCard extends BaseCard implements SkillCardData {
     }
   } as SkillCardData;
 
+  defaults: SkillCardData | undefined;
+
   origin: CardCustomText;
 
   constructor(data: Partial<SkillCardData> = {}) {
-    const full = deepMerge({ ...SkillCard.defaults }, data) as SkillCardData;
+    const full = deepMerge({ ...SkillCard.customDefaults }, data) as SkillCardData;
     super(full);
     this.origin = full.origin;
+    this.defaults = deepMerge({...BaseCard.defaults}, {...SkillCard.customDefaults}) as SkillCardData;
   }
 
   getDefaults(): SkillCardData {
-    return { ...SkillCard.defaults };
+    return this.defaults || SkillCard.customDefaults;
   }
 }
 
@@ -63,7 +66,7 @@ export const SkillCardConfig: BaseCardConfig = {
       field: "origin",
       label: "Origem",
       placeholder: "Digite a origem da habilidade",
-      defaultValues: SkillCard.defaults.origin,
+      defaultValues: SkillCard.customDefaults.origin,
       type: "CardCustomText"
     }
   ]
