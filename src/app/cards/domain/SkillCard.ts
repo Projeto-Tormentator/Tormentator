@@ -56,4 +56,15 @@ export const SkillCardConfig: BaseCardConfig = {
   isFuture: false,
 
   isHidden: false,
+
+
+  customFields: [
+    {
+      field: "origin",
+      label: "Origem",
+      placeholder: "Digite a origem da habilidade",
+      defaultValues: SkillCard.defaults.origin,
+      type: "CardCustomText"
+    }
+  ]
 };

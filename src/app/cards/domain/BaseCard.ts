@@ -66,4 +66,12 @@ export interface BaseCardConfig {
   isFuture: boolean;
 
   isHidden: boolean;
+
+  customFields?: {
+    field: string;
+    label: string;
+    placeholder?: string;
+    defaultValues?: any;
+    type?: any;
+  }[];
 }
