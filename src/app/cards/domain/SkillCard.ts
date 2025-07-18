@@ -3,7 +3,7 @@ import { BaseCard, BaseCardConfig, BaseCardData } from "./BaseCard";
 import { CARD_SIZES } from "./core/CardSize";
 import { CARD_TYPES } from "./core/CardType";
 import { CardCustomText } from "./fields/CustomText";
-import { CardFontFamilies } from "./fields/CardFontFamily";
+import { CardFontFamilies } from "./fields/types/CardFontFamily";
 import { deepMerge } from "@/lib/utils";
 
 export interface SkillCardData extends BaseCardData {

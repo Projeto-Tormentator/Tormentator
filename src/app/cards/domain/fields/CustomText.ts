@@ -1,5 +1,5 @@
-import { CardFontFamily } from "./CardFontFamily";
-import { CardFontWeight } from "./CardFontWeight";
+import { CardFontFamily } from "./types/CardFontFamily";
+import { CardFontWeight } from "./types/CardFontWeight";
 
 export interface CardCustomText {
   text: string;

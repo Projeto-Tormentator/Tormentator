@@ -1,5 +1,5 @@
-import { CardFontFamilies } from "./CardFontFamily";
-import { CardFontWeights } from "./CardFontWeight";
+import { CardFontFamilies } from "./types/CardFontFamily";
+import { CardFontWeights } from "./types/CardFontWeight";
 import { CardCustomText } from "./CustomText";
 
 export interface CardSource extends CardCustomText {}
