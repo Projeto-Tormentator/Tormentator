@@ -10,6 +10,8 @@ export interface BaseCardData {
   type: CardType;
   size: CardSize;
   backgroundColor: string;
+  withPaperTexture?: boolean;
+  withBack?: boolean;
   borderColor: string;
   borderWidth: number;
   title: CardCustomText;
@@ -21,6 +23,8 @@ export abstract class BaseCard implements BaseCardData {
   type!: CardType;
   size!: CardSize;
   backgroundColor!: string;
+  withPaperTexture?: boolean;
+  withBack?: boolean;
   borderColor!: string;
   borderWidth!: number;
   title!: CardTitle;
@@ -31,6 +35,8 @@ export abstract class BaseCard implements BaseCardData {
     type: CARD_TYPES.SKILL,
     size: CARD_SIZES.NORMAL,
     backgroundColor: "#ffffff",
+    withPaperTexture: false,
+    withBack: false,
     borderColor: "#000000",
     borderWidth: 1,
     title: DEFAULT_CARD_TITLE,
