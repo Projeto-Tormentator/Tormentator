@@ -1,4 +1,5 @@
 import { CardFontFamily } from "./CardFontFamily";
+import { CardFontWeight } from "./CardFontWeight";
 
 export interface CardCustomText {
   text: string;
@@ -7,5 +8,6 @@ export interface CardCustomText {
   maxLength?: number;
   type?: 'text' | 'textarea';
   fontFamily?: CardFontFamily;
+  fontWeight?: CardFontWeight;
 
 }
