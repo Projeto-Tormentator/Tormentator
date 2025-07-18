@@ -35,7 +35,7 @@ export abstract class BaseCard implements BaseCardData {
     type: CARD_TYPES.SKILL,
     size: CARD_SIZES.NORMAL,
     backgroundColor: "#ffffff",
-    withPaperTexture: false,
+    withPaperTexture: true,
     withBack: false,
     borderColor: "#000000",
     borderWidth: 1,
