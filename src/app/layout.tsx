@@ -4,6 +4,7 @@ import "./fonts.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { ThemeProvider } from "./themeProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 
 export const metadata: Metadata = {
@@ -32,6 +33,8 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+
+          <Toaster position="bottom-right" richColors closeButton />
         </ThemeProvider>
       </body>
     </html>
