@@ -1,4 +1,5 @@
 import { CardFontFamilies } from "./CardFontFamily";
+import { CardFontWeights } from "./CardFontWeight";
 import { CardCustomText } from "./CustomText";
 
 export interface CardDescription extends CardCustomText {}
@@ -9,5 +10,6 @@ export const DEFAULT_CARD_DESCRIPTION: CardDescription = {
   color: "#ffffff",
   maxLength: 50,
   type: "text",
-  fontFamily: CardFontFamilies.IOWAN_OLD_STYLE
+  fontFamily: CardFontFamilies.IOWAN_OLD_STYLE,
+  fontWeight: CardFontWeights.NORMAL
 };
