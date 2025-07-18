@@ -1,6 +1,7 @@
 import { CardFontFamilies } from "./types/CardFontFamily";
 import { CardFontWeights } from "./types/CardFontWeight";
 import { CardCustomText } from "./CustomText";
+import { CardTextAligns } from "./types/CardTextAlign";
 
 export interface CardTitle extends CardCustomText {}
 
@@ -11,5 +12,6 @@ export const DEFAULT_CARD_TITLE: CardTitle = {
   maxLength: 50,
   type: "text",
   fontFamily: CardFontFamilies.TORMENTA_20,
-  fontWeight: CardFontWeights.BOLD
+  fontWeight: CardFontWeights.BOLD,
+  textAlign: CardTextAligns.CENTER
 };

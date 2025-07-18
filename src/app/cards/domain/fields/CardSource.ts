@@ -1,6 +1,7 @@
 import { CardFontFamilies } from "./types/CardFontFamily";
 import { CardFontWeights } from "./types/CardFontWeight";
 import { CardCustomText } from "./CustomText";
+import { CardTextAligns } from "./types/CardTextAlign";
 
 export interface CardSource extends CardCustomText {}
 
@@ -11,5 +12,6 @@ export const DEFAULT_CARD_SOURCE: CardSource = {
   maxLength: 50,
   type: "text",
   fontFamily: CardFontFamilies.IOWAN_OLD_STYLE,
-  fontWeight: CardFontWeights.LIGHT
+  fontWeight: CardFontWeights.LIGHT,
+  textAlign: CardTextAligns.CENTER
 };
