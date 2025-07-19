@@ -8,7 +8,7 @@ import { CardTextStyles } from "./types/CardTextStyle";
 
 export const DEFAULT_CARD_TITLE: CardCustomText = {
   text: "",
-  fontSize: 16,
+  fontSize: 20,
   color: "#ffffff",
   maxLength: 50,
   type: "text",
