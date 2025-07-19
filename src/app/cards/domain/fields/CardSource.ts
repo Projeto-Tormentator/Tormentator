@@ -8,12 +8,12 @@ import { CardTextStyles } from "./types/CardTextStyle";
 
 export const DEFAULT_CARD_SOURCE: CardCustomText = {
   text: "",
-  fontSize: 16,
-  color: "#ffffff",
-  maxLength: 50,
+  fontSize: 10,
+  color: "#000000",
+  maxLength: 25,
   type: "text",
   fontFamily: CardFontFamilies.IOWAN_OLD_STYLE,
-  fontWeight: CardFontWeights.LIGHT,
-  textAlign: CardTextAligns.CENTER,
+  fontWeight: CardFontWeights.NORMAL,
+  textAlign: CardTextAligns.LEFT,
   textStyle: CardTextStyles.NORMAL
 };
