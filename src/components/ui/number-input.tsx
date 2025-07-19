@@ -27,7 +27,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       if (value !== undefined && displayValue === '') {
         setDisplayValue(value.toString());
       }
-    }, []);
+    }, [value, displayValue]);
 
     const validateAndFormatValue = (inputValue: string): string => {
       // Remove caracteres não numéricos (exceto ponto/vírgula para decimais se permitido)
