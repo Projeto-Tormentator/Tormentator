@@ -45,7 +45,7 @@ export default function AboutPage() {
                 Tormentator
               </span>
             </h1>
-            <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+            <p className="text-xl text-slate-600 dark:text-slate-100 max-w-2xl mx-auto">
               A história por trás desse HUB de ferramentas para Tormenta 20
             </p>
           </div>
