@@ -42,6 +42,9 @@ export default function CardsPage() {
       {/* Alert Section */}
       <SaveCardsAlert />
       
+      {/* Main Content */}
+      <CardList />
+      
     </div>
   );
 }

@@ -56,7 +56,7 @@ export function CustomTextField({ id, field, label, placeholder, defaultValues, 
     <div className="space-y-2 mb-4">
       <Label
         htmlFor={`card-${id}`}
-        className="block text-lg font-medium text-slate-700 dark:text-slate-300"
+        className="block text-lg font-medium text-slate-700 dark:text-slate-100"
       >
         {label} {field.maxLength && (
           <span className="text-sm text-slate-500">(máx. {field.maxLength} caracteres)</span>
@@ -109,7 +109,7 @@ export function CustomTextField({ id, field, label, placeholder, defaultValues, 
             <div className="flex flex-col gap-4">
               <div className="flex flex-col justify-between lg:flex-row gap-4 lg:gap-8">
                 <div className="w-full lg:w-1/2">
-                  <Label htmlFor={`${id}-fontSize`} className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                  <Label htmlFor={`${id}-fontSize`} className="block text-sm font-medium text-slate-700 dark:text-slate-100 mb-2">
                     Tamanho da Fonte
                   </Label>
                   <Input
@@ -134,7 +134,7 @@ export function CustomTextField({ id, field, label, placeholder, defaultValues, 
               </div>
               <div className="flex flex-col justify-between lg:flex-row gap-4 lg:gap-8">
                 <div className="w-full lg:w-1/2">
-                  <Label htmlFor={`${id}-fontFamily`} className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                  <Label htmlFor={`${id}-fontFamily`} className="block text-sm font-medium text-slate-700 dark:text-slate-100 mb-2">
                     Fonte
                   </Label>
                   <Select
@@ -156,7 +156,7 @@ export function CustomTextField({ id, field, label, placeholder, defaultValues, 
                   </Select>
                 </div>
                 <div className="w-full lg:w-1/2">
-                  <Label htmlFor={`${id}-fontWeight`} className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                  <Label htmlFor={`${id}-fontWeight`} className="block text-sm font-medium text-slate-700 dark:text-slate-100 mb-2">
                     Peso
                   </Label>
                   <Select
@@ -180,7 +180,7 @@ export function CustomTextField({ id, field, label, placeholder, defaultValues, 
               </div>
               <div className="flex flex-col justify-between lg:flex-row gap-4 lg:gap-8">
                 <div className="w-full lg:w-1/2">
-                  <Label htmlFor={`${id}-textAlign`} className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                  <Label htmlFor={`${id}-textAlign`} className="block text-sm font-medium text-slate-700 dark:text-slate-100 mb-2">
                     Alinhamento
                   </Label>
                   <Select
@@ -202,7 +202,7 @@ export function CustomTextField({ id, field, label, placeholder, defaultValues, 
                   </Select>
                 </div>
                 <div className="w-full lg:w-1/2">
-                  <Label htmlFor={`${id}-textStyle`} className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+                  <Label htmlFor={`${id}-textStyle`} className="block text-sm font-medium text-slate-700 dark:text-slate-100 mb-2">
                     Estilo
                   </Label>
                   <Select

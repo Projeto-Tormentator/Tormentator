@@ -69,7 +69,7 @@ export default function Feature(props: FeatureProps) {
         </h3>
       </div>
       
-      <p className="text-slate-700 dark:text-slate-300 mb-4">
+      <p className="text-slate-700 dark:text-slate-100 mb-4">
         {description}
       </p>
       
