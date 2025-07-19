@@ -1,6 +1,7 @@
 import { CardCustomText } from "@/app/cards/domain/fields/CustomText";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { NumberInput } from "@/components/ui/number-input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ChevronDown, ChevronUp } from "lucide-react";
@@ -112,14 +113,13 @@ export function CustomTextField({ id, field, label, placeholder, defaultValues, 
                   <Label htmlFor={`${id}-fontSize`} className="block text-sm font-medium text-slate-700 dark:text-slate-100 mb-2">
                     Tamanho da Fonte
                   </Label>
-                  <Input
+                  <NumberInput
                     id={`${id}-fontSize`}
-                    type="number"
                     value={field.fontSize}
-                    onChange={(e) => onUpdate(`${id}.fontSize`, parseInt(e.target.value))}
+                    onChange={(value) => onUpdate(`${id}.fontSize`, value)}
                     className="w-full h-8 border-slate-300 dark:border-slate-600 focus-visible:ring-2 focus-visible:ring-purple-500 dark:focus-visible:ring-purple-400 outline-none"
-                    min="8"
-                    max="72"
+                    min={8}
+                    max={72}
                   />
                 </div>
                 <div className="w-full lg:w-1/2">

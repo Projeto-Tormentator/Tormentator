@@ -50,7 +50,7 @@ export function ColorPickerField({
           className={
             `block
             text-slate-700
-            dark:text-slate-300
+            dark:text-slate-100
             ${variant === "compact" ? 'text-xs' : ''}
             ${variant === "default" ? 'text-sm' : ''}
             ${variant === "big" ? 'text-lg mb-2' : ''}
