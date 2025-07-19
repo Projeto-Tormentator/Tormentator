@@ -9,7 +9,7 @@ import { CardTextStyles } from "./types/CardTextStyle";
 export const DEFAULT_CARD_DESCRIPTION: CardCustomText = {
   text: "",
   fontSize: 16,
-  color: "#ffffff",
+  color: "#000000",
   maxLength: 500,
   type: "textarea",
   fontFamily: CardFontFamilies.IOWAN_OLD_STYLE,
