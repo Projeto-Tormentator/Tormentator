@@ -14,6 +14,7 @@ export interface BaseCardData {
   withBack?: boolean;
   borderColor: string;
   borderWidth: number;
+  borderRadius: number;
   title: CardCustomText;
   description: CardCustomText;
   source: CardCustomText;
@@ -27,6 +28,7 @@ export abstract class BaseCard implements BaseCardData {
   withBack?: boolean;
   borderColor!: string;
   borderWidth!: number;
+  borderRadius!: number;
   title!: CardCustomText;
   description!: CardCustomText;
   source!: CardCustomText;
@@ -38,7 +40,8 @@ export abstract class BaseCard implements BaseCardData {
     withPaperTexture: true,
     withBack: false,
     borderColor: "#000000",
-    borderWidth: 1,
+    borderWidth: 8,
+    borderRadius: 8,
     title: DEFAULT_CARD_TITLE,
     description: DEFAULT_CARD_DESCRIPTION,
     source: DEFAULT_CARD_SOURCE
