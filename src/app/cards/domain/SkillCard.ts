@@ -5,6 +5,8 @@ import { CARD_TYPES } from "./core/CardType";
 import { CardCustomText } from "./fields/CustomText";
 import { CardFontFamilies } from "./fields/types/CardFontFamily";
 import { deepMergeCards } from "@/lib/utils";
+import { CardTextStyles } from "./fields/types/CardTextStyle";
+import { CardTextAligns } from "./fields/types/CardTextAlign";
 
 export interface SkillCardData extends BaseCardData {
   origin: CardCustomText; //Skill origin, e.g., "Habilidades de Goblin"
@@ -17,10 +19,12 @@ export class SkillCard extends BaseCard implements SkillCardData {
     origin: {
       text: "",
       fontSize: 12,
-      color: "#888888",
-      maxLength: 50,
+      color: "#000000",
+      maxLength: 25,
       type: "text",
-      fontFamily: CardFontFamilies.SOURCESANS_PRO
+      fontFamily: CardFontFamilies.IOWAN_OLD_STYLE,
+      textStyle: CardTextStyles.ITALIC,
+      textAlign: CardTextAligns.CENTER,
     }
   } as SkillCardData;
 
