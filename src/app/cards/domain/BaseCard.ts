@@ -2,7 +2,7 @@ import { AccentColor } from "@/config/colors";
 import { CARD_SIZES, CardSize } from "./core/CardSize";
 import { CARD_TYPES, CardType } from "./core/CardType";
 import { CardCustomText } from "./fields/CustomText";
-import { CardTitle, DEFAULT_CARD_TITLE } from "./fields/CardTitle";
+import { DEFAULT_CARD_TITLE } from "./fields/CardTitle";
 import { DEFAULT_CARD_DESCRIPTION } from "./fields/CardDescription";
 import { DEFAULT_CARD_SOURCE } from "./fields/CardSource";
 
@@ -27,7 +27,7 @@ export abstract class BaseCard implements BaseCardData {
   withBack?: boolean;
   borderColor!: string;
   borderWidth!: number;
-  title!: CardTitle;
+  title!: CardCustomText;
   description!: CardCustomText;
   source!: CardCustomText;
 
@@ -77,7 +77,7 @@ export interface BaseCardConfig {
     field: string;
     label: string;
     placeholder?: string;
-    defaultValues?: any;
-    type?: any;
+    defaultValues?: unknown;
+    type?: string;
   }[];
 }

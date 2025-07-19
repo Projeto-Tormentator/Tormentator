@@ -4,7 +4,7 @@ import { CARD_SIZES } from "./core/CardSize";
 import { CARD_TYPES } from "./core/CardType";
 import { CardCustomText } from "./fields/CustomText";
 import { CardFontFamilies } from "./fields/types/CardFontFamily";
-import { deepMerge } from "@/lib/utils";
+import { deepMergeCards } from "@/lib/utils";
 
 export interface SkillCardData extends BaseCardData {
   origin: CardCustomText; //Skill origin, e.g., "Habilidades de Goblin"
@@ -29,10 +29,10 @@ export class SkillCard extends BaseCard implements SkillCardData {
   origin: CardCustomText;
 
   constructor(data: Partial<SkillCardData> = {}) {
-    const full = deepMerge({ ...SkillCard.customDefaults }, data) as SkillCardData;
+    const full = deepMergeCards({ ...SkillCard.customDefaults }, data) as SkillCardData;
     super(full);
     this.origin = full.origin;
-    this.defaults = deepMerge({...BaseCard.defaults}, {...SkillCard.customDefaults}) as SkillCardData;
+    this.defaults = deepMergeCards({...BaseCard.defaults}, {...SkillCard.customDefaults}) as SkillCardData;
   }
 
   getDefaults(): SkillCardData {

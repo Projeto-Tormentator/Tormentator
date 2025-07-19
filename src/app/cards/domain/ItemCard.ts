@@ -4,7 +4,7 @@ import { CARD_SIZES } from "./core/CardSize";
 import { CARD_TYPES } from "./core/CardType";
 import { CardCustomText } from "./fields/CustomText";
 import { CardFontFamilies } from "./fields/types/CardFontFamily";
-import { deepMerge } from "@/lib/utils";
+import { deepMergeCards } from "@/lib/utils";
 
 export interface ItemCardData extends BaseCardData {
   origin: CardCustomText; //Item origin, e.g., "Poderes de Paladino"
@@ -29,10 +29,10 @@ export class ItemCard extends BaseCard implements ItemCardData {
   origin: CardCustomText;
 
   constructor(data: Partial<ItemCardData> = {}) {
-    const full = deepMerge({...ItemCard.cutomDefaults}, data) as ItemCardData;
+    const full = deepMergeCards({...ItemCard.cutomDefaults}, data) as ItemCardData;
     super(full);
     this.origin = full.origin;
-    this.defaults = deepMerge({ ...BaseCard.defaults }, { ...ItemCard.cutomDefaults }) as ItemCardData;
+    this.defaults = deepMergeCards({ ...BaseCard.defaults }, { ...ItemCard.cutomDefaults }) as ItemCardData;
   }
 
   getDefaults(): ItemCardData {

@@ -4,7 +4,7 @@ import { CARD_SIZES } from "./core/CardSize";
 import { CARD_TYPES } from "./core/CardType";
 import { CardCustomText } from "./fields/CustomText";
 import { CardFontFamilies } from "./fields/types/CardFontFamily";
-import { deepMerge } from "@/lib/utils";
+import { deepMergeCards } from "@/lib/utils";
 
 export interface MagicCardData extends BaseCardData {
   origin: CardCustomText; //Magic origin, e.g., "Poderes de Paladino"
@@ -29,10 +29,10 @@ export class MagicCard extends BaseCard implements MagicCardData {
   origin: CardCustomText;
 
   constructor(data: Partial<MagicCardData> = {}) {
-    const full = deepMerge({ ...MagicCard.customDefaults }, data) as MagicCardData;
+    const full = deepMergeCards({ ...MagicCard.customDefaults }, data) as MagicCardData;
     super(full);
     this.origin = full.origin;
-    this.defaults = deepMerge({ ...BaseCard.defaults }, { ...MagicCard.customDefaults }) as MagicCardData;
+    this.defaults = deepMergeCards({ ...BaseCard.defaults }, { ...MagicCard.customDefaults }) as MagicCardData;
   }
 
   getDefaults(): MagicCardData {

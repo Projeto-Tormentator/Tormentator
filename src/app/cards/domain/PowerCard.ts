@@ -4,7 +4,7 @@ import { CARD_SIZES } from "./core/CardSize";
 import { CARD_TYPES } from "./core/CardType";
 import { CardCustomText } from "./fields/CustomText";
 import { CardFontFamilies } from "./fields/types/CardFontFamily";
-import { deepMerge } from "@/lib/utils";
+import { deepMergeCards } from "@/lib/utils";
 
 export interface PowerCardData extends BaseCardData {
   origin: CardCustomText; //Power origin, e.g., "Poderes de Paladino"
@@ -29,10 +29,10 @@ export class PowerCard extends BaseCard implements PowerCardData {
   origin: CardCustomText;
 
   constructor(data: Partial<PowerCardData> = {}) {
-    const full = deepMerge({ ...PowerCard.customDefaults }, data) as PowerCardData;
+    const full = deepMergeCards({ ...PowerCard.customDefaults }, data) as PowerCardData;
     super(full);
     this.origin = full.origin;
-    this.defaults = deepMerge({ ...BaseCard.defaults }, { ...PowerCard.customDefaults }) as PowerCardData;
+    this.defaults = deepMergeCards({ ...BaseCard.defaults }, { ...PowerCard.customDefaults }) as PowerCardData;
   }
 
   getDefaults(): PowerCardData {

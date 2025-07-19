@@ -5,23 +5,32 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function deepMerge(
-  target: { [key: string]: any },
-  source: { [key: string]: any }
-): { [key: string]: any } {
+export function deepMergeCards<T extends Record<string, unknown>>(
+  target: T,
+  source: Partial<T>
+): T {
+  const result = { ...target };
+  
   for (const key in source) {
+    const sourceValue = source[key];
+    const targetValue = result[key];
+    
     if (
-      source[key] &&
-      typeof source[key] === 'object' &&
-      !Array.isArray(source[key])
+      sourceValue &&
+      typeof sourceValue === 'object' &&
+      !Array.isArray(sourceValue) &&
+      targetValue &&
+      typeof targetValue === 'object' &&
+      !Array.isArray(targetValue)
     ) {
-      target[key] = deepMerge(
-        target[key] ? { ...target[key] } : {},
-        source[key]
-      );
-    } else {
-      target[key] = source[key];
+      result[key] = deepMergeCards(
+        targetValue as Record<string, unknown>,
+        sourceValue as Record<string, unknown>
+      ) as T[Extract<keyof T, string>];
+    } else if (sourceValue !== undefined) {
+      result[key] = sourceValue as T[Extract<keyof T, string>];
     }
   }
-  return target;
+  
+  return result;
 }

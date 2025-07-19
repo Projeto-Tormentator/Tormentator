@@ -4,9 +4,9 @@ import { CardCustomText } from "./CustomText";
 import { CardTextAligns } from "./types/CardTextAlign";
 import { CardTextStyles } from "./types/CardTextStyle";
 
-export interface CardTitle extends CardCustomText {}
+//export interface CardTitle extends CardCustomText {}
 
-export const DEFAULT_CARD_TITLE: CardTitle = {
+export const DEFAULT_CARD_TITLE: CardCustomText = {
   text: "",
   fontSize: 16,
   color: "#ffffff",
