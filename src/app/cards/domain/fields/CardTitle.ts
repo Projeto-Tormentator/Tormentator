@@ -13,7 +13,7 @@ export const DEFAULT_CARD_TITLE: CardCustomText = {
   maxLength: 50,
   type: "text",
   fontFamily: CardFontFamilies.TORMENTA_20,
-  fontWeight: CardFontWeights.BOLD,
+  fontWeight: CardFontWeights.NORMAL,
   textAlign: CardTextAligns.CENTER,
   textStyle: CardTextStyles.NORMAL
 };
