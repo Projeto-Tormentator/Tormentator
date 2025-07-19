@@ -5,13 +5,11 @@ export interface CardFontWeightData {
 
 export type CardFontWeight =
   'NORMAL'
-  | 'BOLD'
-  | 'LIGHT';
+  | 'BOLD';
 
 export const CardFontWeights: Record<CardFontWeight, CardFontWeight> = {
   NORMAL: 'NORMAL',
-  BOLD: 'BOLD',
-  LIGHT: 'LIGHT'
+  BOLD: 'BOLD'
 };
 
 export const CardFontWeightsConfig: Record<CardFontWeight, CardFontWeightData> = {
@@ -22,9 +20,5 @@ export const CardFontWeightsConfig: Record<CardFontWeight, CardFontWeightData> =
   BOLD: {
     name: 'Negrito',
     cssValue: 'bold',
-  },
-  LIGHT: {
-    name: 'Leve',
-    cssValue: '300',
   }
 };
