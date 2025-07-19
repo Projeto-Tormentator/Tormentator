@@ -10,19 +10,22 @@ export const CARD_SIZES: Record<CardSize, CardSize> = {
 
 export interface CardSizeData {
   uiLabel: string;
-  uiDescriptio: string;
-  dimensions: { width: number; height: number };
+  uiDescription: string;
+  printDimensions: { width: number; height: number };
+  displayDimensions: { width: number; height: number };
 }
 
 export const CARD_SIZE_DATA: Record<CardSize, CardSizeData> = {
   NORMAL: {
     uiLabel: "Normal",
-    uiDescriptio: "Carta padrão de baralho.",
-    dimensions: { width: 63, height: 88 }
+    uiDescription: "Carta padrão de baralho.",
+    printDimensions: { width: 63, height: 88 },
+    displayDimensions: { width: 250, height: 350 }
   },
   TAROT: {
     uiLabel: "Tarot",
-    uiDescriptio: "Carta de tamanho Tarot. Utilizada nas cartas de Magia de T20.",
-    dimensions: { width: 70, height: 120 }
+    uiDescription: "Carta de tamanho Tarot. Utilizada nas cartas de Magia de T20.",
+    printDimensions: { width: 70, height: 120 },
+    displayDimensions: { width: 280, height: 480 }
   }
 };
