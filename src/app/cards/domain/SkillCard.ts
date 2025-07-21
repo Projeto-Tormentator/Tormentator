@@ -16,13 +16,14 @@ export class SkillCard extends BaseCard implements SkillCardData {
   static customDefaults: SkillCardData = {
     type: CARD_TYPES.SKILL,
     size: CARD_SIZES.NORMAL,
+    borderColor: "#3b82f6",
     origin: {
       text: "",
       fontSize: 12,
       color: "#000000",
       maxLength: {
-        [CARD_SIZES.NORMAL]: 100,
-        [CARD_SIZES.TAROT]: 150
+        [CARD_SIZES.NORMAL]: 35,
+        [CARD_SIZES.TAROT]: 40
       },
       type: "text",
       fontFamily: CardFontFamilies.IOWAN_OLD_STYLE,
@@ -39,6 +40,7 @@ export class SkillCard extends BaseCard implements SkillCardData {
     const full = deepMergeCards({ ...SkillCard.customDefaults }, data) as SkillCardData;
     super(full);
     this.origin = full.origin;
+    this.origin.text = this.origin.text.slice(0, this.origin.maxLength![this.size]);
     this.defaults = deepMergeCards({...BaseCard.defaults}, {...SkillCard.customDefaults}) as SkillCardData;
   }
 
@@ -58,10 +60,10 @@ export const SkillCardConfig: BaseCardConfig = {
   uiAccent: "blue",
 
   isAvailable: true,
-  isNew: false,
-  isBeta: false,
+  isNew: true,
+  isBeta: true,
 
-  isComingSoon: true,
+  isComingSoon: false,
 
   isFuture: false,
 
