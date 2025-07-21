@@ -57,6 +57,14 @@ export abstract class BaseCard implements BaseCardData {
   }
 }
 
+export interface CardCustomField {
+  field: string;
+  label: string;
+  placeholder?: string;
+  defaultValues?: unknown;
+  type?: string;
+}
+
 export interface BaseCardConfig {
   type: CardType;
   availableSizes: CardSize[];
@@ -76,11 +84,5 @@ export interface BaseCardConfig {
 
   isHidden: boolean;
 
-  customFields?: {
-    field: string;
-    label: string;
-    placeholder?: string;
-    defaultValues?: unknown;
-    type?: string;
-  }[];
+  customFields?: CardCustomField[];
 }

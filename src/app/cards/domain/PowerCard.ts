@@ -59,4 +59,14 @@ export const PowerCardConfig: BaseCardConfig = {
   isFuture: false,
 
   isHidden: false,
+  
+  customFields: [
+    {
+      field: "origin",
+      label: "Origem",
+      placeholder: "Digite a origem da habilidade",
+      defaultValues: PowerCard.customDefaults.origin,
+      type: "CardCustomText"
+    }
+  ]
 };

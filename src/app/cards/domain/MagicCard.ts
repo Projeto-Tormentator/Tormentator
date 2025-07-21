@@ -59,4 +59,14 @@ export const MagicCardConfig: BaseCardConfig = {
   isFuture: true,
 
   isHidden: false,
+
+  customFields: [
+    {
+      field: "origin",
+      label: "Origem",
+      placeholder: "Digite a origem da magia",
+      defaultValues: MagicCard.customDefaults.origin,
+      type: "CardCustomText"
+    }
+  ]
 };

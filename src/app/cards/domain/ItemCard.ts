@@ -59,4 +59,14 @@ export const ItemCardConfig: BaseCardConfig = {
   isFuture: true,
 
   isHidden: false,
+  
+  customFields: [
+    {
+      field: "origin",
+      label: "Origem",
+      placeholder: "Digite a origem do item",
+      defaultValues: ItemCard.cutomDefaults.origin,
+      type: "CardCustomText"
+    }
+  ]
 };
