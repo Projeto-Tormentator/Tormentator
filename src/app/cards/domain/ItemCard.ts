@@ -53,7 +53,7 @@ export const ItemCardConfig: BaseCardConfig = {
   uiDescription: "Itens, Equipamentos, Artefatos, etc.",
   uiAccent: "yellow",
 
-  isAvailable: true,
+  isAvailable: false,
   isNew: false,
   isBeta: false,
 

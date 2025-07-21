@@ -53,7 +53,7 @@ export const MagicCardConfig: BaseCardConfig = {
   uiDescription: "Magias",
   uiAccent: "purple",
 
-  isAvailable: true,
+  isAvailable: false,
   isNew: false,
   isBeta: false,
 
