@@ -13,12 +13,14 @@ import { CardFontWeight, CardFontWeights, CardFontWeightsConfig } from "@/app/ca
 import { CardTextAlign, CardTextAligns, CardTextAlignsConfig } from "@/app/cards/domain/fields/types/CardTextAlign";
 import { CardTextStyle, CardTextStyles, CardTextStylesConfig } from "@/app/cards/domain/fields/types/CardTextStyle";
 import { toast } from "sonner";
+import { CardSize } from "@/app/cards/domain/core/CardSize";
 export interface CustomTextFieldProps {
   id: string;
   field: CardCustomText;
   label: string;
   placeholder: string;
   defaultValues?: Partial<CardCustomText>;
+  cardSize: CardSize;
   onUpdate: (
     fieldOrUpdates: string | UpdateField[],
     value?: unknown
@@ -28,7 +30,7 @@ export interface CustomTextFieldProps {
 export type UpdateField = { field: string; value: unknown };
 
 
-export function CustomTextField({ id, field, label, placeholder, defaultValues, onUpdate }: CustomTextFieldProps) {
+export function CustomTextField({ id, field, label, placeholder, defaultValues, onUpdate, cardSize }: CustomTextFieldProps) {
   const [isCustomizationExpanded, setIsCustomizationExpanded] = useState(false);
 
   const restoreDefaults = () => {
@@ -44,7 +46,8 @@ export function CustomTextField({ id, field, label, placeholder, defaultValues, 
   };
 
   const handleTextChange = (newText: string) => {
-    if (!field.maxLength || newText.length <= field.maxLength) {
+    const maxLength = field.maxLength?.[cardSize] ?? undefined;
+    if (!maxLength || newText.length <= maxLength) {
       onUpdate(`${id}.text`, newText);
     }
   };
@@ -59,8 +62,8 @@ export function CustomTextField({ id, field, label, placeholder, defaultValues, 
         htmlFor={`card-${id}`}
         className="block text-lg font-medium text-slate-700 dark:text-slate-100"
       >
-        {label} {field.maxLength && (
-          <span className="text-sm text-slate-500">(máx. {field.maxLength} caracteres)</span>
+        {label} {field.maxLength?.[cardSize] && (
+          <span className="text-sm text-slate-500">(máx. {field.maxLength?.[cardSize]} caracteres)</span>
         )}
       </Label>
 
@@ -71,7 +74,7 @@ export function CustomTextField({ id, field, label, placeholder, defaultValues, 
           value={field.text || ""}
           onChange={(e) => handleTextChange(e.target.value)}
           placeholder={placeholder}
-          maxLength={field.maxLength}
+          maxLength={field.maxLength?.[cardSize]}
         />
       ) : (
         <Textarea
@@ -80,13 +83,13 @@ export function CustomTextField({ id, field, label, placeholder, defaultValues, 
           value={field.text || ""}
           onChange={(e) => handleTextChange(e.target.value)}
           placeholder={placeholder}
-          maxLength={field.maxLength}
+          maxLength={field.maxLength?.[cardSize]}
         />
       )}
 
-      {field.maxLength && (
+      {field.maxLength?.[cardSize] && (
         <div className="text-xs text-slate-500 text-right -mb-4">
-          {(field.text || "").length}/{field.maxLength}
+          {(field.text || "").length}/{field.maxLength?.[cardSize]}
         </div>
       )}
       
