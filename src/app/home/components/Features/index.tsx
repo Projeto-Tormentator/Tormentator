@@ -9,7 +9,8 @@ const FeatureList: FeatureProps[] = [
     icon: <TbCards className="h-6 w-6" />,
     accent: "purple",
     link: "/cards",
-    isComingSoon: true,
+    isAvailable: true,
+    isBeta: true,
   },
   {
     title: "Dados Virtuais",
