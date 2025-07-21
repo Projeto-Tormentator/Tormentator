@@ -49,6 +49,21 @@ export abstract class BaseCard implements BaseCardData {
 
   constructor(data: Partial<BaseCardData> = {}) {
     const init = { ...BaseCard.defaults, ...data } as BaseCardData;
+    
+    init.title = { ...BaseCard.defaults.title, ...data.title };
+    init.description = { ...BaseCard.defaults.description, ...data.description };
+    init.source = { ...BaseCard.defaults.source, ...data.source };
+    
+    if (init.title.maxLength) {
+      init.title.text = init.title.text.slice(0, init.title.maxLength[init.size]);
+    }
+    if (init.description.maxLength) {
+      init.description.text = init.description.text.slice(0, init.description.maxLength[init.size]);
+    }
+    if (init.source.maxLength) {
+      init.source.text = init.source.text.slice(0, init.source.maxLength[init.size]);
+    }
+    
     Object.assign(this, init);
   }
   
