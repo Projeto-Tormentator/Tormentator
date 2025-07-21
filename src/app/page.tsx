@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "google-site-verification-code", // Você pode adicionar seu código de verificação aqui
+    google: "google-site-verification-code",
   },
 };
 
