@@ -96,6 +96,7 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           projectId: ${{ secrets.FIREBASE_PROJECT_ID }}
           target: homolog-tormentator
+          channelId: live
 
   deploy-prod-cloudrun:
     name: 🚀 Deploy Produção (Cloud Run)
@@ -146,3 +147,4 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           projectId: ${{ secrets.FIREBASE_PROJECT_ID }}
           target: tormentator
+          channelId: live
