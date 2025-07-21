@@ -14,13 +14,14 @@ export class PowerCard extends BaseCard implements PowerCardData {
   static customDefaults: PowerCardData = {
     type: CARD_TYPES.POWER,
     size: CARD_SIZES.NORMAL,
+    borderColor: "#f97316",
     origin: {
       text: "",
       fontSize: 12,
-      color: "#888888",
+      color: "#000000",
       maxLength: {
-        [CARD_SIZES.NORMAL]: 100,
-        [CARD_SIZES.TAROT]: 150
+        [CARD_SIZES.NORMAL]: 35,
+        [CARD_SIZES.TAROT]: 40
       },
       type: "text",
       fontFamily: CardFontFamilies.SOURCESANS_PRO
@@ -35,6 +36,7 @@ export class PowerCard extends BaseCard implements PowerCardData {
     const full = deepMergeCards({ ...PowerCard.customDefaults }, data) as PowerCardData;
     super(full);
     this.origin = full.origin;
+    this.origin.text = this.origin.text.slice(0, this.origin.maxLength![this.size]);
     this.defaults = deepMergeCards({ ...BaseCard.defaults }, { ...PowerCard.customDefaults }) as PowerCardData;
   }
 
@@ -54,10 +56,10 @@ export const PowerCardConfig: BaseCardConfig = {
   uiAccent: "red",
 
   isAvailable: true,
-  isNew: false,
-  isBeta: false,
+  isNew: true,
+  isBeta: true,
 
-  isComingSoon: true,
+  isComingSoon: false,
 
   isFuture: false,
 
