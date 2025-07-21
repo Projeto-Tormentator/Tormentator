@@ -20,7 +20,10 @@ export class SkillCard extends BaseCard implements SkillCardData {
       text: "",
       fontSize: 12,
       color: "#000000",
-      maxLength: 25,
+      maxLength: {
+        [CARD_SIZES.NORMAL]: 100,
+        [CARD_SIZES.TAROT]: 150
+      },
       type: "text",
       fontFamily: CardFontFamilies.IOWAN_OLD_STYLE,
       textStyle: CardTextStyles.ITALIC,

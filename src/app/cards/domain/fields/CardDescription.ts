@@ -10,7 +10,10 @@ export const DEFAULT_CARD_DESCRIPTION: CardCustomText = {
   text: "",
   fontSize: 16,
   color: "#000000",
-  maxLength: 500,
+  maxLength: {
+    NORMAL: 200,
+    TAROT: 300
+  },
   type: "textarea",
   fontFamily: CardFontFamilies.IOWAN_OLD_STYLE,
   fontWeight: CardFontWeights.NORMAL,

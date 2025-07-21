@@ -10,7 +10,10 @@ export const DEFAULT_CARD_TITLE: CardCustomText = {
   text: "",
   fontSize: 20,
   color: "#ffffff",
-  maxLength: 50,
+  maxLength: {
+    NORMAL: 100,
+    TAROT: 150
+  },
   type: "text",
   fontFamily: CardFontFamilies.TORMENTA_20,
   fontWeight: CardFontWeights.NORMAL,

@@ -18,7 +18,10 @@ export class MagicCard extends BaseCard implements MagicCardData {
       text: "",
       fontSize: 12,
       color: "#888888",
-      maxLength: 100,
+      maxLength: {
+        [CARD_SIZES.NORMAL]: 100,
+        [CARD_SIZES.TAROT]: 150
+      },
       type: "text",
       fontFamily: CardFontFamilies.SOURCESANS_PRO
     }

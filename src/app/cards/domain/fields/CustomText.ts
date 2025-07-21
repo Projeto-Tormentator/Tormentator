@@ -1,3 +1,4 @@
+import { CardSize } from "../core/CardSize";
 import { CardFontFamily } from "./types/CardFontFamily";
 import { CardFontWeight } from "./types/CardFontWeight";
 import { CardTextAlign } from "./types/CardTextAlign";
@@ -7,7 +8,9 @@ export interface CardCustomText {
   text: string;
   fontSize: number;
   color: string;
-  maxLength?: number;
+  maxLength: {
+    [key in CardSize]: number;
+  };
   type?: 'text' | 'textarea';
   fontFamily?: CardFontFamily;
   fontWeight?: CardFontWeight;
