@@ -1,0 +1,34 @@
+{
+  "hosting": [
+    {
+      "site": "tormentator",
+      "public": "public",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        {
+          "source": "**",
+          "run": {
+            "serviceId": "tormentator-front",
+            "region": "southamerica-east1",
+            "pinTag": true
+          }
+        }
+      ]
+    },
+    {
+      "site": "homolog-tormentator",
+      "public": "public",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        {
+          "source": "**",
+          "run": {
+            "serviceId": "tormentator-front-homolog",
+            "region": "southamerica-east1",
+            "pinTag": true
+          }
+        }
+      ]
+    }
+  ]
+}
