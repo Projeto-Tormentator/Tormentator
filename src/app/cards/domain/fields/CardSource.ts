@@ -11,8 +11,8 @@ export const DEFAULT_CARD_SOURCE: CardCustomText = {
   fontSize: 10,
   color: "#000000",
   maxLength: {
-    NORMAL: 100,
-    TAROT: 150
+    NORMAL: 35,
+    TAROT: 45
   },
   type: "text",
   fontFamily: CardFontFamilies.IOWAN_OLD_STYLE,
