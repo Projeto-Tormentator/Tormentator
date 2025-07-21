@@ -20,12 +20,12 @@ export const CARD_SIZE_DATA: Record<CardSize, CardSizeData> = {
     uiLabel: "Normal",
     uiDescription: "Carta padrão de baralho.",
     printDimensions: { width: 63, height: 88 },
-    displayDimensions: { width: 250, height: 350 }
+    displayDimensions: { width: 275, height: 405 }
   },
   TAROT: {
     uiLabel: "Tarot",
     uiDescription: "Carta de tamanho Tarot. Utilizada nas cartas de Magia de T20.",
     printDimensions: { width: 70, height: 120 },
-    displayDimensions: { width: 280, height: 480 }
+    displayDimensions: { width: 300, height: 500 }
   }
 };
