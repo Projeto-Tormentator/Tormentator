@@ -129,7 +129,7 @@ export function CustomTextField({ id, field, label, placeholder, defaultValues, 
                   <ColorPickerField 
                     id={`${id}-color`}
                     label="Cor do Texto"
-                    color={field.color}
+                    color={field.color!}
                     onChange={(value) => onUpdate(`${id}.color`, value)}
                     variant="default"
                   />
