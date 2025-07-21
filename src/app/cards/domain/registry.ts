@@ -1,7 +1,7 @@
-import { ItemCard, ItemCardConfig } from "./ItemCard";
-import { MagicCard, MagicCardConfig } from "./MagicCard";
-import { PowerCard, PowerCardConfig } from "./PowerCard";
-import { SkillCard, SkillCardConfig } from "./SkillCard";
+import { ItemCard, ItemCardConfig, ItemCardData } from "./ItemCard";
+import { MagicCard, MagicCardConfig, MagicCardData } from "./MagicCard";
+import { PowerCard, PowerCardConfig, PowerCardData } from "./PowerCard";
+import { SkillCard, SkillCardConfig, SkillCardData } from "./SkillCard";
 
 export const CardRegistry = {
   SKILL: {
@@ -23,5 +23,7 @@ export const CardRegistry = {
 } as const;
 
 export type CardClasses = SkillCard | PowerCard | MagicCard | ItemCard;
+
+export type CardInterfaces = SkillCardData | PowerCardData | MagicCardData | ItemCardData;
 
 export type CardConfigs = typeof SkillCardConfig | typeof PowerCardConfig | typeof MagicCardConfig | typeof ItemCardConfig;
