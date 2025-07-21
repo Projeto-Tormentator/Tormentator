@@ -9,10 +9,10 @@ import { CardTextStyles } from "./types/CardTextStyle";
 export const DEFAULT_CARD_TITLE: CardCustomText = {
   text: "",
   fontSize: 20,
-  color: "#ffffff",
+  color: "#000000",
   maxLength: {
-    NORMAL: 100,
-    TAROT: 150
+    NORMAL: 20,
+    TAROT: 40
   },
   type: "text",
   fontFamily: CardFontFamilies.TORMENTA_20,

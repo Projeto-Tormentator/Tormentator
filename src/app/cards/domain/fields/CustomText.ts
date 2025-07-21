@@ -6,9 +6,9 @@ import { CardTextStyle } from "./types/CardTextStyle";
 
 export interface CardCustomText {
   text: string;
-  fontSize: number;
-  color: string;
-  maxLength: {
+  fontSize?: number;
+  color?: string;
+  maxLength?: {
     [key in CardSize]: number;
   };
   type?: 'text' | 'textarea';
