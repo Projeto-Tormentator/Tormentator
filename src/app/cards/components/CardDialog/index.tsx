@@ -45,7 +45,7 @@ export function CardDialog({
   const [confirmDialogAction, setConfirmDialogAction] = useState<() => void>(() => () => {});
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [hasUnsavedStyleChanges, setHasUnsavedStyleChanges] = useState(false);
-  const [isPreviewPrintMode, setIsPreviewPrintMode] = useState(false);
+  const [isPreviewPrintMode, setIsPreviewPrintMode] = useState(true);
 
   const hasCustomFieldChanges = useCallback((): boolean => {
     return cardConfig.customFields?.some((field) => {
