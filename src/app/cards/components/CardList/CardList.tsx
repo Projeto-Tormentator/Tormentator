@@ -2,8 +2,9 @@
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { BookOpen, Download, FileDown, FileUp, Plus, Sparkles, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CardClasses, CardConfigs, CardRegistry } from "../../domain/registry";
+import { EXAMPLE_CARDS } from "../../domain/examples/exampleCards";
 import Badge from "@/app/home/components/Features/Badge";
 import { TbCards } from "react-icons/tb";
 import { CardDialog } from "../CardDialog";
@@ -27,6 +28,8 @@ export default function CardList() {
   const [isCreating, setIsCreating] = useState(true);
   const [isConfirmClearAllOpen, setIsConfirmClearAllOpen] = useState(false);
   const [isConfirmDeleteCardOpen, setIsConfirmDeleteCardOpen] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const menuOption = Object.values(CardRegistry);
   
@@ -58,18 +61,132 @@ export default function CardList() {
   }
 
   const handleImportCards = () => {
-    // TO-DO: Implementar a lógica para importar cartas
-    console.log("Importar cartas");
+    fileInputRef.current?.click();
+  }
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      processImportFile(file);
+    }
+    // Limpar o input para permitir selecionar o mesmo arquivo novamente
+    if (event.target) {
+      event.target.value = '';
+    }
+  }
+
+  const processImportFile = (file: File) => {
+    if (!file.name.endsWith('.json')) {
+      toast.error('Por favor, selecione um arquivo JSON válido.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const content = e.target?.result as string;
+        const importedCards = JSON.parse(content);
+        
+        if (!Array.isArray(importedCards)) {
+          toast.error('Formato de arquivo inválido. Esperado um array de cartas.');
+          return;
+        }
+
+        // Verificar e criar instâncias válidas das cartas
+        const validCards: CardClasses[] = [];
+        
+        for (const cardData of importedCards) {
+          if (!cardData || typeof cardData !== 'object' || !cardData.type) {
+            continue;
+          }
+          
+          try {
+            const cardRegistry = CardRegistry[cardData.type as keyof typeof CardRegistry];
+            if (cardRegistry) {
+              const cardInstance = new cardRegistry.cardClass(cardData);
+              validCards.push(cardInstance);
+            }
+          } catch (error) {
+            console.warn('Erro ao criar instância de carta:', error);
+          }
+        }
+
+        if (validCards.length === 0) {
+          toast.error('Nenhuma carta válida encontrada no arquivo.');
+          return;
+        }
+
+        // Concatenar com as cartas existentes
+        const newCards = [...cards, ...validCards];
+        setCards(newCards);
+        localStorage.setItem("tormentator-cards", JSON.stringify(newCards));
+        
+        toast.success(`${validCards.length} carta(s) importada(s) com sucesso!`);
+        
+        if (validCards.length < importedCards.length) {
+          toast.warning(`${importedCards.length - validCards.length} carta(s) ignorada(s) por formato inválido.`);
+        }
+      } catch (error) {
+        console.error('Erro ao importar cartas:', error);
+        toast.error('Erro ao processar o arquivo. Verifique se o formato está correto.');
+      }
+    };
+    
+    reader.readAsText(file);
+  }
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(true);
+  }
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  }
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
+    
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      processImportFile(files[0]);
+    }
   }
 
   const handleImportExampleCards = () => {
-    // TO-DO: Implementar a lógica para importar cartas de exemplo
-    console.log("Importar cartas de exemplo");
+    // Concatenar cartas de exemplo com as existentes
+    const newCards = [...cards, ...EXAMPLE_CARDS];
+    setCards(newCards);
+    localStorage.setItem("tormentator-cards", JSON.stringify(newCards));
+    toast.success(`${EXAMPLE_CARDS.length} cartas de exemplo importadas com sucesso!`);
   }
 
   const handleExportCards = () => {
-    // TO-DO: Implementar a lógica para exportar cartas
-    console.log("Exportar cartas");
+    if (cards.length === 0) {
+      toast.error('Nenhuma carta disponível para exportar.');
+      return;
+    }
+
+    try {
+      const cardsJson = JSON.stringify(cards, null, 2);
+      const blob = new Blob([cardsJson], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `tormentator-cartas-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      URL.revokeObjectURL(url);
+      toast.success('Cartas exportadas com sucesso!');
+    } catch (error) {
+      console.error('Erro ao exportar cartas:', error);
+      toast.error('Erro ao exportar cartas. Tente novamente.');
+    }
   }
 
   const handleGeneratePdf = () => {
@@ -130,6 +247,14 @@ export default function CardList() {
 
   return (
     <>
+      {/* Input de arquivo oculto */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".json"
+        style={{ display: 'none' }}
+        onChange={handleFileSelect}
+      />
     
       {selectedCard && selectedCardConfig && (
         <CardDialog
@@ -238,7 +363,16 @@ export default function CardList() {
         </div>
         <div className="mx-auto text-center bg-slate-200/30 dark:bg-slate-700/30 rounded-3xl w-full">
           {cards.length === 0 ? (
-            <div className="p-8 text-slate-700 dark:text-slate-100">
+            <div 
+              className={`p-8 text-slate-700 dark:text-slate-100 transition-all duration-300 ${
+                isDragOver 
+                  ? 'bg-purple-100 dark:bg-purple-900/20 border-2 border-dashed border-purple-400 dark:border-purple-500' 
+                  : ''
+              }`}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+            >
               <div className="flex items-center justify-center mb-4">
                 <button
                   type="button"
@@ -254,10 +388,26 @@ export default function CardList() {
               <h2 className="text-2xl font-semibold mb-4 ">Nenhuma carta encontrada</h2>
               <p className="text-lg">Clique no botão &quot;Adicionar Nova Carta&quot; para começar.</p>
               <p className="text-sm dark:text-slate-400 mt-2">Você pode importar cartas de exemplo ou então de um arquivo de cartas.</p>
-              <p className="text-sm dark:text-slate-400 mt-2">Você pode também arrastar um arquivo até esse local para importá-lo.</p>
+              <p className={`text-sm dark:text-slate-400 mt-2 transition-all duration-300 ${
+                isDragOver ? 'text-purple-600 dark:text-purple-400 font-medium' : ''
+              }`}>
+                {isDragOver 
+                  ? 'Solte o arquivo aqui para importar suas cartas!' 
+                  : 'Você pode também arrastar um arquivo até esse local para importá-lo.'
+                }
+              </p>
             </div>
           ) : (
-            <div className="p-8 text-slate-700 dark:text-slate-100 flex flex-col">
+            <div 
+              className={`p-8 text-slate-700 dark:text-slate-100 flex flex-col transition-all duration-300 ${
+                isDragOver 
+                  ? 'bg-purple-100 dark:bg-purple-900/20 border-2 border-dashed border-purple-400 dark:border-purple-500 rounded-3xl' 
+                  : ''
+              }`}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+            >
               <div className="flex w-full">
                 <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-lg border border-slate-200 dark:border-slate-700 w-full">
                   <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -320,6 +470,18 @@ export default function CardList() {
                   </div>
                 </div>
               </div>
+              {isDragOver && (
+                <div className="fixed inset-0 bg-purple-500/20 dark:bg-purple-900/30 flex items-center justify-center z-50 pointer-events-none">
+                  <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-2xl border-2 border-dashed border-purple-400 dark:border-purple-500">
+                    <div className="flex items-center gap-4">
+                      <FileUp className="h-8 w-8 text-purple-600 dark:text-purple-400" />
+                      <div className="text-xl font-semibold text-purple-600 dark:text-purple-400">
+                        Solte o arquivo aqui para importar cartas
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
                 <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-32 md:gap-x-6 md:gap-y-16 lg:gap-x-6 lg:gap-y-24 xl:gap-x-6 xl:gap-y-32 h-full">
                 {cards.map((card, index) => (
                   <div
