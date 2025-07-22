@@ -382,7 +382,8 @@ export function CardDialog({
 
   const handleSizeChange = (value: CardSize) => {
     if (CARD_SIZES[value]) {
-      const currentDefaults = card.getDefaults();
+      const currentDefaults = isCreating ? card.getDefaults() : card.defaults!;
+
       currentDefaults.size = value;
 
       const truncatedFields = checkTextTruncation(card, currentDefaults);
@@ -403,7 +404,7 @@ export function CardDialog({
 
   const handleConfirmSizeChange = (value: CardSize) => {
     if (CARD_SIZES[value]) {
-      const currentDefaults = card.getDefaults();
+      const currentDefaults = isCreating ? card.getDefaults() : card.defaults!;
       const newCard = recreateCardWithNewDefaults(card, currentDefaults);
       newCard.size = value;
       setCard(newCard);
@@ -741,7 +742,6 @@ export function CardDialog({
                 <Card
                   card={card}
                   isPrintMode={isPreviewPrintMode}
-                  onClick={() => {}}
                 />
               </div>
             </div>

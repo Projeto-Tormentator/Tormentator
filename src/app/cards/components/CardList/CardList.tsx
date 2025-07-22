@@ -26,6 +26,7 @@ export default function CardList() {
   const [selectedCardIndex, setSelectedCardIndex] = useState<number | null>(null);
   const [isCreating, setIsCreating] = useState(true);
   const [isConfirmClearAllOpen, setIsConfirmClearAllOpen] = useState(false);
+  const [isConfirmDeleteCardOpen, setIsConfirmDeleteCardOpen] = useState(false);
 
   const menuOption = Object.values(CardRegistry);
   
@@ -100,6 +101,32 @@ export default function CardList() {
     }
   }
 
+  const handleEditCard = (card: CardClasses, index: number) => {
+    setSelectedCard(card);
+    setOriginalSelectedCard(card);
+    setSelectedCardConfig(CardRegistry[card.type].config);
+    setSelectedCardIndex(index);
+    setIsCreating(false);
+    setIsDialogOpen(true);
+  }
+
+  const handleDeleteCard = (index: number) => {
+    setIsConfirmDeleteCardOpen(true);
+    setSelectedCard(cards[index]);
+    setSelectedCardIndex(index);
+  }
+
+  const handleConfirmDeleteCard = () => {
+    if (selectedCard && selectedCardIndex !== null) {
+      const updatedCards = cards.filter((_, i) => i !== selectedCardIndex);
+      setCards(updatedCards);
+      localStorage.setItem("tormentator-cards", JSON.stringify(updatedCards));
+      toast.success("Carta apagada com sucesso!");
+      setSelectedCard(undefined);
+      setSelectedCardConfig(undefined);
+      setSelectedCardIndex(null);
+    }
+  }
 
   return (
     <>
@@ -302,14 +329,9 @@ export default function CardList() {
                   <Card
                     card={card}
                     isPrintMode={printMode}
-                    onClick={() => {
-                      setSelectedCard(card);
-                      setOriginalSelectedCard(card);
-                      setSelectedCardConfig(CardRegistry[card.type].config);
-                      setSelectedCardIndex(index);
-                      setIsCreating(false);
-                      setIsDialogOpen(true);
-                    }}
+                    index={index}
+                    onEdit={() => handleEditCard(card, index)}
+                    onDelete={() => handleDeleteCard(index)}
                   />
                   </div>
                 ))}
@@ -347,6 +369,38 @@ export default function CardList() {
           </div>
         </AlertDialogContent>
           
+      </AlertDialog>
+
+      {/* Confirmar Exclusão de Carta Dialog */}
+      <AlertDialog
+        open={isConfirmDeleteCardOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            setSelectedCard(undefined);
+            setSelectedCardIndex(null);
+            setIsConfirmDeleteCardOpen(false);
+          }
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogTitle className="text-lg font-semibold">
+            Tem certeza que deseja apagar essa carta?
+          </AlertDialogTitle>
+          <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
+            Essa ação não pode ser desfeita. A carta será removida permanentemente.
+          </p>
+          <div className="mt-6 flex justify-end gap-4">
+            <AlertDialogCancel>
+              Cancelar
+            </AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-red-500 text-white hover:bg-red-600 focus:ring-2 focus:ring-red-500 rounded-md px-4 py-2" 
+              onClick={() => {handleConfirmDeleteCard()}}
+            >
+              Apagar
+            </AlertDialogAction>
+          </div>
+        </AlertDialogContent>
       </AlertDialog>
     </>
   );
