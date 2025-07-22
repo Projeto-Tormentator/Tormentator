@@ -187,8 +187,8 @@ export default function PrivacyPage() {
               <ul>
                 <li>
                   <strong>Discord:</strong> 
-                  <a href={PROJECT_CONFIG.community.discordInvite} className="text-purple-600 dark:text-purple-400 hover:underline ml-2">
-                    {PROJECT_CONFIG.community.discordInvite}
+                  <a href={PROJECT_CONFIG.community.discord} className="text-purple-600 dark:text-purple-400 hover:underline ml-2">
+                    {PROJECT_CONFIG.community.discord}
                   </a>
                 </li>
                 <li>

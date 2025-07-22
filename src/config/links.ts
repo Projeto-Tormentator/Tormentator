@@ -10,15 +10,14 @@ export const PROJECT_CONFIG = {
   },
   
   project: {
-    repository: "https://github.com/Projeto-Tormentator/frontend",
-    homepage: "https://tormentator.vercel.app",
-    issues: "https://github.com/Projeto-Tormentator/frontend/issues",
-    discussions: "https://github.com/Projeto-Tormentator/frontend/discussions"
+    repository: "https://github.com/Projeto-Tormentator/Tormentator",
+    homepage: "https://tormentator.com.br",
+    issues: "https://github.com/Projeto-Tormentator/Tormentator/issues",
+    discussions: "https://github.com/Projeto-Tormentator/Tormentator/discussions"
   },
   
   community: {
-    discord: "https://discord.gg/BvkGZzHCRF",
-    discordInvite: "https://discord.gg/BvkGZzHCRF"
+    discord: "https://discord.gg/BvkGZzHCRF"
   },
   
   support: {
@@ -29,7 +28,6 @@ export const PROJECT_CONFIG = {
     systemName: "Tormenta20",
     jamboEditoraName: "Jambô Editora",
     jamboEditora: "https://jamboeditora.com.br/",
-    oficialSite: "https://jamboeditora.com.br/"
   },
   
   google: {
