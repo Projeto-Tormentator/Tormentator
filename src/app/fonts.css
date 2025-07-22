@@ -16,64 +16,64 @@
   font-display: swap;
 }
 
-/* Iowan Old Style Font - Regular */
+/* IowanOldStyleFont - Regular */
 @font-face {
-  font-family: "Iowan Old Style";
-  src: url("/assets/fonts/Iowan Old Style Regular.ttf") format("truetype");
+  font-family: "IowanOldStyle";
+  src: url("/assets/fonts/IowanOldStyleRegular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
-/* Iowan Old Style Font - Bold */
+/* IowanOldStyleFont - Bold */
 @font-face {
-  font-family: "Iowan Old Style";
-  src: url("/assets/fonts/Iowan Old Style Bold.otf") format("opentype");
+  font-family: "IowanOldStyle";
+  src: url("/assets/fonts/IowanOldStyleBold.otf") format("opentype");
   font-weight: bold;
   font-style: normal;
   font-display: swap;
 }
 
-/* Iowan Old Style Font - Italic */
+/* IowanOldStyleFont - Italic */
 @font-face {
-  font-family: "Iowan Old Style";
-  src: url("/assets/fonts/Iowan Old Style Italic.ttf") format("truetype");
+  font-family: "IowanOldStyle";
+  src: url("/assets/fonts/IowanOldStyleItalic.ttf") format("truetype");
   font-weight: normal;
   font-style: italic;
   font-display: swap;
 }
 
-/* Iowan Old Style Font - Bold Italic */
+/* IowanOldStyleFont - Bold Italic */
 @font-face {
-  font-family: "Iowan Old Style";
-  src: url("/assets/fonts/Iowan Old Style Bold Italic.ttf") format("truetype");
+  font-family: "IowanOldStyle";
+  src: url("/assets/fonts/IowanOldStyleBold Italic.ttf") format("truetype");
   font-weight: bold;
   font-style: italic;
   font-display: swap;
 }
 
-/* Source Sans Pro Font - Regular */
+/* SourceSansProFont - Regular */
 @font-face {
-  font-family: "Source Sans Pro";
-  src: url("/assets/fonts/Source Sans Pro Regular.ttf") format("truetype");
+  font-family: "SourceSansPro";
+  src: url("/assets/fonts/SourceSansProRegular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
-/* Source Sans Pro Font - Bold */
+/* SourceSansProFont - Bold */
 @font-face {
-  font-family: "Source Sans Pro";
-  src: url("/assets/fonts/Source Sans Pro Bold.ttf") format("truetype");
+  font-family: "SourceSansPro";
+  src: url("/assets/fonts/SourceSansProBold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
   font-display: swap;
 }
 
-/* Source Sans Pro Font - Italic */
+/* SourceSansProFont - Italic */
 @font-face {
-  font-family: "Source Sans Pro";
-  src: url("/assets/fonts/Source Sans Pro Italic.ttf") format("truetype");
+  font-family: "SourceSansPro";
+  src: url("/assets/fonts/SourceSansProItalic.ttf") format("truetype");
   font-weight: normal;
   font-style: italic;
   font-display: swap;

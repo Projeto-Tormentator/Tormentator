@@ -29,15 +29,15 @@ export const CardFontFamiliesConfig: Record<CardFontFamily, CardFontFamilyData> 
   },
   IOWAN_OLD_STYLE: {
     name: 'Iowan Old Style',
-    cssValue: '"Iowan Old Style", serif',
+    cssValue: '"IowanOldStyle"',
   },
   SOURCESANS_PRO: {
     name: 'Source Sans Pro',
-    cssValue: '"Source Sans Pro", sans-serif',
+    cssValue: '"SourceSansPro"',
   },
   BENGUIAT: {
     name: 'Benguiat',
-    cssValue: '"Benguiat", cursive',
+    cssValue: '"Benguiat"',
   },
    ARIAL: {
     name: 'Arial',
@@ -45,7 +45,7 @@ export const CardFontFamiliesConfig: Record<CardFontFamily, CardFontFamilyData> 
   },
   COMIC_SANS_MS: {
     name: 'Comic Sans MS',
-    cssValue: '"Comic Sans MS", cursive, sans-serif',
+    cssValue: '"Comic Sans MS", "Comic Sans", cursive',
   },
   COURIER_NEW: {
     name: 'Courier New',
