@@ -230,6 +230,7 @@ export function Card({ card, isPrintMode = false, onEdit, onDelete, index }: Car
                   textOverflow: 'ellipsis',
                   lineHeight: '1',
                   letterSpacing: '0.05em',
+                  alignmentBaseline: 'middle',
                 }}
               >
                 {card.title.text || ""}
@@ -270,7 +271,7 @@ export function Card({ card, isPrintMode = false, onEdit, onDelete, index }: Car
                   overflow: 'clip',
                   wordBreak: 'break-word',
                   textOverflow: 'ellipsis',
-                  lineHeight: '1',
+                  lineHeight: '1.1',
                   whiteSpace: 'pre-wrap',
                 }}
               >
