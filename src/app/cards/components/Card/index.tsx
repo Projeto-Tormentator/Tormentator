@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { CARD_SIZE_DATA } from "../../domain/core/CardSize";
 import { CARD_TYPES } from "../../domain/core/CardType";
@@ -15,11 +16,12 @@ export interface CardProps {
   index?: number;
   onEdit?: (card: CardClasses, index: number) => void;
   onDelete?: (index: number) => void;
+  isFlippedByDefault?: boolean;
 }
 
-export function Card({ card, isPrintMode = false, onEdit, onDelete, index }: CardProps) {
+export function Card({ card, isPrintMode = false, onEdit, onDelete, index, isFlippedByDefault=false }: CardProps) {
 
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(isFlippedByDefault);
   const [isHovered, setIsHovered] = useState(false);
 
   const mmToPx = 3.7795275591; // 1 mm = 3.7795275591 px
@@ -32,8 +34,8 @@ export function Card({ card, isPrintMode = false, onEdit, onDelete, index }: Car
 
     if( isPrintMode ) {
       return {
-        width: sizeData.printDimensions.width * mmToPx,
-        height: sizeData.printDimensions.height * mmToPx
+        width: Math.ceil(sizeData.printDimensions.width * mmToPx),
+        height: Math.ceil(sizeData.printDimensions.height * mmToPx)
       };
     }
 
@@ -304,104 +306,105 @@ export function Card({ card, isPrintMode = false, onEdit, onDelete, index }: Car
               </div>
             </div>
           </div>
-
-          <div
-            style={{
-              display: 'flex',
-              width: getCardSize().width - (card.borderWidth * 2),
-              height: getCardSize().height - (card.borderWidth * 2),
-              backfaceVisibility: 'hidden',
-              overflow: 'hidden',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              transform: 'rotateY(180deg)',
-              position: 'absolute',
-              top: 0,
-            }}
-          >
+          {card.withBack && (
             <div
               style={{
-                width: "100%",
-                height: "fit-content",
-                backgroundColor: card.borderColor,
-                paddingBottom: card.borderWidth? `${card.borderWidth}px` : '0',
-                paddingRight: card.borderWidth? `4px` : '0',
-                paddingLeft: card.borderWidth? `4px` : '0',
-                margin: 0,
-                border: 0,
-                boxShadow: 'none',
                 display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <Image
-                src={"/assets/images/logo-t20.png"}
-                alt={"Card Image"}
-                className="rounded-lg"
-                width={130}
-                height={20}
-              />
-            </div>
-            <div
-              style={{
-                width: "100%",
-                height: "100%",
-                background: getCardBackground(),
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                padding: card.borderWidth ? `${card.borderWidth}px` : '0',
-                borderRadius: `${card.borderRadius}px`,
-                display: 'flex',
+                width: getCardSize().width - (card.borderWidth * 2),
+                height: getCardSize().height - (card.borderWidth * 2),
+                backfaceVisibility: 'hidden',
+                overflow: 'hidden',
                 flexDirection: 'column',
-                justifyContent: 'space-between',
+                justifyContent: 'center',
                 alignItems: 'center',
+                transform: 'rotateY(180deg)',
+                position: 'absolute',
+                top: 0,
               }}
             >
               <div
                 style={{
                   width: "100%",
-                  height: "100%",
+                  height: "fit-content",
+                  backgroundColor: card.borderColor,
+                  paddingBottom: card.borderWidth? `${card.borderWidth}px` : '0',
+                  paddingRight: card.borderWidth? `4px` : '0',
+                  paddingLeft: card.borderWidth? `4px` : '0',
+                  margin: 0,
+                  border: 0,
+                  boxShadow: 'none',
                   display: 'flex',
-                  justifyContent: 'center',
                   alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
                 <Image
-                  src={"/assets/images/logo.png"}
+                  src={"/assets/images/logo-t20.png"}
                   alt={"Card Image"}
                   className="rounded-lg"
-                  width={getCardSize().width - (card.borderWidth * 2 + 40)}
-                  height={getCardSize().height + (card.borderWidth * 2 + 40)}
+                  width={130}
+                  height={20}
                 />
               </div>
-              <div>
+              <div
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  background: getCardBackground(),
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  padding: card.borderWidth ? `${card.borderWidth}px` : '0',
+                  borderRadius: `${card.borderRadius}px`,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
                 <div
                   style={{
                     width: "100%",
-                    paddingRight: card.borderWidth? `4px` : '0',
-                    paddingLeft: card.borderWidth? `4px` : '0',
-                    margin: 0,
-                    border: 0,
-                    boxShadow: 'none',
-                    fontSize: `${card.title.fontSize}px`,
-                    color: card.title.color,
-                    textAlign: CardTextAlignsConfig[card.title.textAlign || CardTextAligns.CENTER].cssValue,
-                    fontFamily: CardFontFamiliesConfig[card.title.fontFamily! || CardFontFamilies.TORMENTA_20].cssValue,
-                    fontWeight: CardFontWeightsConfig[card.title.fontWeight || CardFontWeights.BOLD].cssValue,
-                    fontStyle: CardTextStylesConfig[card.title.textStyle! || CardTextStyles.NORMAL].cssValue,
-                    wordBreak: 'break-word',
-                    textOverflow: 'ellipsis',
-                    lineHeight: '1',
-                    letterSpacing: '0.05em',
+                    height: "100%",
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }}
                 >
-                  {card.title.text || ""}
+                  <Image
+                    src={"/assets/images/logo.png"}
+                    alt={"Card Image"}
+                    className="rounded-lg"
+                    width={getCardSize().width - (card.borderWidth * 2 + 40)}
+                    height={getCardSize().height + (card.borderWidth * 2 + 40)}
+                  />
+                </div>
+                <div>
+                  <div
+                    style={{
+                      width: "100%",
+                      paddingRight: card.borderWidth? `4px` : '0',
+                      paddingLeft: card.borderWidth? `4px` : '0',
+                      margin: 0,
+                      border: 0,
+                      boxShadow: 'none',
+                      fontSize: `${card.title.fontSize}px`,
+                      color: card.title.color,
+                      textAlign: CardTextAlignsConfig[card.title.textAlign || CardTextAligns.CENTER].cssValue,
+                      fontFamily: CardFontFamiliesConfig[card.title.fontFamily! || CardFontFamilies.TORMENTA_20].cssValue,
+                      fontWeight: CardFontWeightsConfig[card.title.fontWeight || CardFontWeights.BOLD].cssValue,
+                      fontStyle: CardTextStylesConfig[card.title.textStyle! || CardTextStyles.NORMAL].cssValue,
+                      wordBreak: 'break-word',
+                      textOverflow: 'ellipsis',
+                      lineHeight: '1',
+                      letterSpacing: '0.05em',
+                    }}
+                  >
+                    {card.title.text || ""}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     );
