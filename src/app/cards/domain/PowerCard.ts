@@ -43,6 +43,21 @@ export class PowerCard extends BaseCard implements PowerCardData {
   getDefaults(): PowerCardData {
     return this.defaults || PowerCard.customDefaults;
   }
+
+  export(): PowerCardData {
+    return {
+      ...super.export(),
+      origin: {
+        text: this.origin.text,
+        fontSize: this.origin.fontSize,
+        color: this.origin.color,
+        fontFamily: this.origin.fontFamily,
+        fontWeight: this.origin.fontWeight,
+        textAlign: this.origin.textAlign,
+        textStyle: this.origin.textStyle
+      }
+    };
+  }
 }
 
 

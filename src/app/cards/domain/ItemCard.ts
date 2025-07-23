@@ -41,6 +41,21 @@ export class ItemCard extends BaseCard implements ItemCardData {
   getDefaults(): ItemCardData {
     return this.defaults || ItemCard.cutomDefaults;
   }
+
+  export(): ItemCardData {
+    return {
+      ...super.export(),
+      origin: {
+        text: this.origin.text,
+        fontSize: this.origin.fontSize,
+        color: this.origin.color,
+        fontFamily: this.origin.fontFamily,
+        fontWeight: this.origin.fontWeight,
+        textAlign: this.origin.textAlign,
+        textStyle: this.origin.textStyle
+      }
+    }
+  }
 }
 
 

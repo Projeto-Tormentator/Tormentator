@@ -70,6 +70,46 @@ export abstract class BaseCard implements BaseCardData {
   getDefaults(): BaseCardData {
     return { ...BaseCard.defaults };
   }
+
+  export(): BaseCardData {
+    return {
+      type: this.type,
+      size: this.size,
+      backgroundColor: this.backgroundColor,
+      withPaperTexture: this.withPaperTexture,
+      withBack: this.withBack,
+      borderColor: this.borderColor,
+      borderWidth: this.borderWidth,
+      borderRadius: this.borderRadius,
+      title: {
+        text: this.title.text,
+        fontSize: this.title.fontSize,
+        color: this.title.color,
+        fontFamily: this.title.fontFamily,
+        fontWeight: this.title.fontWeight,
+        textAlign: this.title.textAlign,
+        textStyle: this.title.textStyle
+      },
+      description: {
+        text: this.description.text,
+        fontSize: this.description.fontSize,
+        color: this.description.color,
+        fontFamily: this.description.fontFamily,
+        fontWeight: this.description.fontWeight,
+        textAlign: this.description.textAlign,
+        textStyle: this.description.textStyle
+      },
+      source: {
+        text: this.source.text,
+        fontSize: this.source.fontSize,
+        color: this.source.color,
+        fontFamily: this.source.fontFamily,
+        fontWeight: this.source.fontWeight,
+        textAlign: this.source.textAlign,
+        textStyle: this.source.textStyle
+      }
+    };
+  }
 }
 
 export interface CardCustomField {
