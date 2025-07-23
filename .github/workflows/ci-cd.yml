@@ -5,8 +5,11 @@ on:
     branches:
       - homolog
       - main
-    tags:
-      - 'v*.*.*'
+  release:
+    types:
+      - published
+      - created
+      - edited
 
 jobs:
   build-docker:
@@ -38,7 +41,7 @@ jobs:
         run: |
           if [[ "${{ github.ref_name }}" == "homolog" ]]; then
             TAG="homolog"
-          elif [[ "${{ github.ref_name }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          elif [[ "${{ github.ref_name }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ && github.event_name == 'release' ]]; then
             TAG="${{ github.ref_name }}"
           else
             TAG="latest"
@@ -98,11 +101,45 @@ jobs:
           target: homolog-tormentator
           channelId: live
 
+  notify-homolog-discord:
+    name: 📢 Notificar Discord (Homologação)
+    runs-on: ubuntu-latest
+    needs: deploy-homolog-hosting
+    if: github.ref_name == 'homolog'
+    env:
+      DISCORD_WEBHOOK_HOMOLOG: ${{ secrets.DISCORD_WEBHOOK_HOMOLOG }}
+    steps:
+      - name: Notificar Discord
+        if: ${{ secrets.DISCORD_WEBHOOK_HOMOLOG != '' }}
+        run: |
+          curl -X POST $DISCORD_WEBHOOK_HOMOLOG \
+          -H "Content-Type: application/json" \
+          -d '{
+            "content": "Deploy da branch homolog realizado com sucesso!",
+            "embeds": [
+              {
+                "title": "Informações do Deploy",
+                "fields": [
+                  {
+                    "name": "Branch",
+                    "value": "${{ github.ref_name }}",
+                    "inline": true
+                  },
+                  {
+                    "name": "Commit",
+                    "value": "${{ github.sha }}",
+                    "inline": true
+                  }
+                ]
+              }
+            ]
+          }'
+
   deploy-prod-cloudrun:
     name: 🚀 Deploy Produção (Cloud Run)
     runs-on: ubuntu-latest
     needs: build-docker
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: github.event_name == 'release'
     environment: production
     permissions:
       contents: read
@@ -136,7 +173,7 @@ jobs:
     name: 🚀 Deploy Produção (Firebase Hosting)
     runs-on: ubuntu-latest
     needs: deploy-prod-cloudrun
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: github.event_name == 'release'
     environment: production
     steps:
       - uses: actions/checkout@v4
@@ -148,3 +185,33 @@ jobs:
           projectId: ${{ secrets.FIREBASE_PROJECT_ID }}
           target: tormentator
           channelId: live
+
+  deploy-prod-discord:
+    name: 📢 Notificar Discord (Produção)
+    runs-on: ubuntu-latest
+    needs: deploy-prod-hosting
+    if: github.event_name == 'release'
+    environment: production
+    env:
+      DISCORD_WEBHOOK_PROD: ${{ secrets.DISCORD_WEBHOOK_PROD }}
+    steps:
+      - name: Notificar Discord
+        if: ${{ secrets.DISCORD_WEBHOOK_PROD != '' }}
+        run: |
+          curl -X POST $DISCORD_WEBHOOK_PROD \
+          -H "Content-Type: application/json" \
+          -d '{
+            "content": "Nova versão do Tormentator disponível!",
+            "embeds": [
+              {
+                "title": "${{ github.event.release.body }}",
+                "fields": [
+                  {
+                    "name": "Versão",
+                    "value": "${{ github.ref_name }}",
+                    "inline": true
+                  }
+                ]
+              }
+            ]
+          }'
