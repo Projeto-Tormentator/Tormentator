@@ -5,7 +5,6 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { ThemeProvider } from "./themeProvider";
 import { Toaster } from "@/components/ui/sonner";
-import { CONFIG_FILES } from "next/dist/shared/lib/constants";
 import { metadata as HomeMetadata } from "./page";
 
 export const metadata: Metadata = HomeMetadata
