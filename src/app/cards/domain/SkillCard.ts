@@ -26,9 +26,7 @@ export class SkillCard extends BaseCard implements SkillCardData {
         [CARD_SIZES.TAROT]: 40
       },
       type: "text",
-      fontFamily: CardFontFamilies.IOWAN_OLD_STYLE,
-      textStyle: CardTextStyles.ITALIC,
-      textAlign: CardTextAligns.CENTER,
+      fontFamily: CardFontFamilies.SOURCESANS_PRO
     }
   } as SkillCardData;
 
