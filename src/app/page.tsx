@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     url: PROJECT_CONFIG.project.homepage,
     images: [
       {
-        url: `${PROJECT_CONFIG.project.homepage}/logo-com-fundo.png`,
+        url: `${PROJECT_CONFIG.project.homepage}/assets/images/logo-com-fundo.png`,
         width: 512,
         height: 512,
         alt: PROJECT_CONFIG.name,
