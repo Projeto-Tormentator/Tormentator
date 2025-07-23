@@ -684,7 +684,7 @@ export function CardDialog({
 
 
             {/* OPÇÕES AVANÇADAS */}           
-            <div className="space-y-4">
+            <div className="space-y-4 mb-4">
               <Label className="block text-lg font-medium text-slate-700 dark:text-slate-100">
                 Opções Avançadas
               </Label>
