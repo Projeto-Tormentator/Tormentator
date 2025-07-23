@@ -1,10 +1,11 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
-import { BookOpen, Download, FileDown, FileUp, Plus, Sparkles, Trash2 } from "lucide-react";
+import { BookOpen, Download, FileDown, FileUp, Plus, Sparkles, Trash2, FileImage, FileText } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { CardClasses, CardConfigs, CardRegistry } from "../../domain/registry";
+import { CardClasses, CardConfigs, CardInterfaces, CardRegistry } from "../../domain/registry";
 import { EXAMPLE_CARDS } from "../../domain/examples/exampleCards";
+import { generateCardsPDF, generateCardsJSON, generateCardsPNG } from "../../utils/cardGenerator";
 import Badge from "@/app/home/components/Features/Badge";
 import { TbCards } from "react-icons/tb";
 import { CardDialog } from "../CardDialog";
@@ -19,7 +20,10 @@ export default function CardList() {
   const [cards, setCards] = useState<CardClasses[]>([]);
   const [printMode, setPrintMode] = useState(false);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportProgress, setExportProgress] = useState({ current: 0, total: 0, type: '' });
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [exportDropdownOpen, setExportDropdownOpen] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState<CardClasses>();
   const [originalSelectedCard, setOriginalSelectedCard] = useState<CardClasses>();
@@ -28,18 +32,81 @@ export default function CardList() {
   const [isCreating, setIsCreating] = useState(true);
   const [isConfirmClearAllOpen, setIsConfirmClearAllOpen] = useState(false);
   const [isConfirmDeleteCardOpen, setIsConfirmDeleteCardOpen] = useState(false);
+  const [isConfirmImportOpen, setIsConfirmImportOpen] = useState(false);
+  const [isConfirmImportExamplesOpen, setIsConfirmImportExamplesOpen] = useState(false);
+  const [pendingImportData, setPendingImportData] = useState<CardClasses[] | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(true);
+  const [invalidCardIndexes, setInvalidCardIndexes] = useState<number[]>([]);
 
   const menuOption = Object.values(CardRegistry);
-  
+
+  const cardArrayToObject = (cards: CardClasses[]) =>  {
+
+    const parsedCards: CardClasses[] = [];
+    const invalidIndexes: number[] = [];
+
+    cards.forEach((cardData: CardInterfaces, idx: number) => {
+      try {
+        const cardInstance = new CardRegistry[cardData.type].cardClass(cardData);
+        parsedCards.push(cardInstance);
+      } catch (error) {
+        invalidIndexes.push(idx);
+      }
+    });
+
+    setInvalidCardIndexes(invalidIndexes);
+
+    return parsedCards;
+  };
+
   useEffect(() => {
-    const storedCards = localStorage.getItem("tormentator-cards");
-    if (storedCards) {
-      setCards(JSON.parse(storedCards));
-    } else {
-      setCards([]);
-    }
+    const loadStoredCards = async () => {
+      try {
+        const storedCards = localStorage.getItem("tormentator-cards");
+        if (storedCards) {
+          toast.loading("Carregando cartas do armazenamento local...", {
+            duration: 9999999999,
+            id: "loading-cards"
+          });
+          
+          const parsedData = JSON.parse(storedCards);
+          const parsedCards = cardArrayToObject(parsedData);
+          setCards(parsedCards);
+          
+          toast.dismiss("loading-cards");
+          
+          if (invalidCardIndexes.length > 0) {
+            toast.error(`Algumas cartas não puderam ser carregadas devido a erros de formatação. Verifique os índices: ${invalidCardIndexes.join(', ')}`, {
+              duration: 10000,
+            });
+          }
+          
+          if (parsedCards.length === 0) {
+            toast.info("Nenhuma carta encontrada no armazenamento local. Você pode criar novas cartas ou importar cartas de exemplo.", {
+              duration: 5000,
+            });
+          } else {
+            toast.success(`Carregadas ${parsedCards.length} carta(s) do armazenamento local!`, {
+              duration: 5000,
+            });
+          }
+        } else {
+          setCards([]);
+        }
+      } catch (error) {
+        console.error('Erro ao carregar cartas do localStorage:', error);
+        toast.error('Erro ao carregar cartas salvas. Começando com lista vazia.', {
+          duration: 5000,
+        });
+        setCards([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadStoredCards();
   }, []);
 
 
@@ -75,6 +142,7 @@ export default function CardList() {
     }
   }
 
+
   const processImportFile = (file: File) => {
     if (!file.name.endsWith('.json')) {
       toast.error('Por favor, selecione um arquivo JSON válido.');
@@ -83,53 +151,47 @@ export default function CardList() {
 
     const reader = new FileReader();
     reader.onload = (e) => {
+      const toastId = toast.loading('Processando arquivo de importação...', {
+        duration: Infinity,
+      });
+
       try {
         const content = e.target?.result as string;
         const importedCards = JSON.parse(content);
         
         if (!Array.isArray(importedCards)) {
-          toast.error('Formato de arquivo inválido. Esperado um array de cartas.');
+          toast.error('Formato de arquivo inválido. Esperado um array de cartas.', { id: toastId });
           return;
         }
 
-        // Verificar e criar instâncias válidas das cartas
-        const validCards: CardClasses[] = [];
-        
-        for (const cardData of importedCards) {
-          if (!cardData || typeof cardData !== 'object' || !cardData.type) {
-            continue;
-          }
-          
-          try {
-            const cardRegistry = CardRegistry[cardData.type as keyof typeof CardRegistry];
-            if (cardRegistry) {
-              const cardInstance = new cardRegistry.cardClass(cardData);
-              validCards.push(cardInstance);
-            }
-          } catch (error) {
-            console.warn('Erro ao criar instância de carta:', error);
-          }
-        }
+        // Usar a função cardArrayToObject para garantir conversão adequada
+        const validCards = cardArrayToObject(importedCards);
 
         if (validCards.length === 0) {
-          toast.error('Nenhuma carta válida encontrada no arquivo.');
+          toast.error('Nenhuma carta válida encontrada no arquivo.', { id: toastId });
           return;
         }
 
-        // Concatenar com as cartas existentes
-        const newCards = [...cards, ...validCards];
-        setCards(newCards);
-        localStorage.setItem("tormentator-cards", JSON.stringify(newCards));
+        // Armazenar as cartas para importação pendente e mostrar confirmação
+        setPendingImportData(validCards);
+        setIsConfirmImportOpen(true);
         
-        toast.success(`${validCards.length} carta(s) importada(s) com sucesso!`);
+        toast.success(`${validCards.length} carta(s) válida(s) encontrada(s) no arquivo.`, { 
+          id: toastId,
+          duration: 3000,
+        });
         
         if (validCards.length < importedCards.length) {
           toast.warning(`${importedCards.length - validCards.length} carta(s) ignorada(s) por formato inválido.`);
         }
       } catch (error) {
         console.error('Erro ao importar cartas:', error);
-        toast.error('Erro ao processar o arquivo. Verifique se o formato está correto.');
+        toast.error('Erro ao processar o arquivo. Verifique se o formato está correto.', { id: toastId });
       }
+    };
+    
+    reader.onerror = () => {
+      toast.error('Erro ao ler o arquivo. Tente novamente.');
     };
     
     reader.readAsText(file);
@@ -156,11 +218,44 @@ export default function CardList() {
   }
 
   const handleImportExampleCards = () => {
-    // Concatenar cartas de exemplo com as existentes
-    const newCards = [...cards, ...EXAMPLE_CARDS];
-    setCards(newCards);
-    localStorage.setItem("tormentator-cards", JSON.stringify(newCards));
-    toast.success(`${EXAMPLE_CARDS.length} cartas de exemplo importadas com sucesso!`);
+    setIsConfirmImportExamplesOpen(true);
+  }
+
+  const handleConfirmImport = () => {
+    if (pendingImportData) {
+      try {
+        const newCards = [...cards, ...pendingImportData];
+
+        setCards(newCards);
+        localStorage.setItem("tormentator-cards", JSON.stringify(newCards));
+        toast.success(`${pendingImportData.length} carta(s) importada(s) com sucesso!`, {
+          duration: 5000,
+        });
+        setPendingImportData(null);
+      } catch (error) {
+        console.error('Erro ao salvar cartas importadas:', error);
+        toast.error('Erro ao salvar cartas importadas. Tente novamente.');
+      }
+    }
+    setIsConfirmImportOpen(false);
+  }
+
+  const handleConfirmImportExamples = () => {
+    try {
+      // Converter cartas de exemplo usando cardArrayToObject para garantir consistência
+      const convertedExampleCards = cardArrayToObject(EXAMPLE_CARDS);
+      const newCards = [...cards, ...convertedExampleCards];
+      
+      setCards(newCards);
+      localStorage.setItem("tormentator-cards", JSON.stringify(newCards));
+      toast.success(`${convertedExampleCards.length} cartas de exemplo importadas com sucesso!`, {
+        duration: 5000,
+      });
+    } catch (error) {
+      console.error('Erro ao importar cartas de exemplo:', error);
+      toast.error('Erro ao importar cartas de exemplo. Tente novamente.');
+    }
+    setIsConfirmImportExamplesOpen(false);
   }
 
   const handleExportCards = () => {
@@ -182,38 +277,173 @@ export default function CardList() {
       document.body.removeChild(link);
       
       URL.revokeObjectURL(url);
-      toast.success('Cartas exportadas com sucesso!');
+      toast.success('Cartas exportadas com sucesso!', {
+        duration: 5000,
+      });
     } catch (error) {
       console.error('Erro ao exportar cartas:', error);
       toast.error('Erro ao exportar cartas. Tente novamente.');
     }
   }
 
-  const handleGeneratePdf = () => {
+  const handleExportJSON = async () => {
+    if (cards.length === 0) {
+      toast.error('Nenhuma carta disponível para exportar.');
+      return;
+    }
+
+    setIsExporting(true);
+    setExportProgress({ current: 0, total: cards.length, type: 'JSON' });
+
+    const toastId = toast.loading(`Exportando cartas para JSON... (0/${cards.length})`, {
+      duration: Infinity,
+    });
+
+    try {
+      await generateCardsJSON(cards, (current, total) => {
+        setExportProgress({ current, total, type: 'JSON' });
+        toast.loading(`Exportando cartas para JSON... (${current}/${total})`, {
+          id: toastId,
+        });
+      });
+
+      toast.success('Cartas exportadas para JSON com sucesso!', { 
+        id: toastId,
+        duration: 5000,
+      });
+    } catch (error) {
+      console.error('Erro ao exportar cartas:', error);
+      toast.error('Erro ao exportar cartas. Tente novamente.', { id: toastId });
+    } finally {
+      setIsExporting(false);
+      setExportProgress({ current: 0, total: 0, type: '' });
+    }
+  }
+
+  const handleExportPDF = async () => {
+    if (cards.length === 0) {
+      toast.error('Nenhuma carta disponível para gerar PDF.');
+      return;
+    }
+
+    setIsExporting(true);
+    setExportProgress({ current: 0, total: cards.length, type: 'PDF' });
+
+    const toastId = toast.loading(`Gerando PDF... (0/${cards.length})`, {
+      duration: Infinity,
+    });
+
+    try {
+      await generateCardsPDF(cards, (current, total) => {
+        setExportProgress({ current, total, type: 'PDF' });
+        toast.loading(`Gerando PDF... (${current}/${total})`, {
+          id: toastId,
+        });
+      });
+
+      toast.success('PDF gerado com sucesso!', { 
+        id: toastId,
+        duration: 5000,
+      });
+    } catch (error) {
+      console.error('Erro ao gerar PDF:', error);
+      toast.error('Erro ao gerar PDF. Tente novamente.', { id: toastId });
+    } finally {
+      setIsExporting(false);
+      setExportProgress({ current: 0, total: 0, type: '' });
+    }
+  }
+
+  const handleExportPNG = async () => {
+    if (cards.length === 0) {
+      toast.error('Nenhuma carta disponível para exportar.');
+      return;
+    }
+
+    setIsExporting(true);
+    setExportProgress({ current: 0, total: cards.length, type: 'PNG' });
+
+    const toastId = toast.loading(`Exportando cartas para PNG... (0/${cards.length})`, {
+      duration: Infinity,
+    });
+
+    try {
+      await generateCardsPNG(cards, (current, total) => {
+        setExportProgress({ current, total, type: 'PNG' });
+        toast.loading(`Exportando cartas para PNG... (${current}/${total})`, {
+          id: toastId,
+        });
+      });
+
+      toast.success('Cartas exportadas para PNG com sucesso!', { 
+        id: toastId,
+        duration: 5000,
+      });
+    } catch (error) {
+      console.error('Erro ao exportar cartas:', error);
+      toast.error('Erro ao exportar cartas. Tente novamente.', { id: toastId });
+    } finally {
+      setIsExporting(false);
+      setExportProgress({ current: 0, total: 0, type: '' });
+    }
+  }
+
+  const handleGeneratePdf = async () => {
+    if (cards.length === 0) {
+      toast.error('Nenhuma carta disponível para gerar PDF.');
+      return;
+    }
+
     setIsGeneratingPdf(true);
-    // TO-DO: Implementar a lógica para gerar PDF
-    console.log("Gerar PDF");
+    
+    try {
+      await generateCardsPDF(cards);
+      toast.success('PDF gerado com sucesso!', {
+        duration: 5000,
+      });
+    } catch (error) {
+      console.error('Erro ao gerar PDF:', error);
+      toast.error('Erro ao gerar PDF. Tente novamente.');
+    } finally {
+      setIsGeneratingPdf(false);
+    }
   }
 
   const handleClearAllCards = () => {
-    setCards([]);
-    toast.success("Todas as cartas foram apagadas com sucesso!");
+    try {
+      setCards([]);
+      localStorage.setItem("tormentator-cards", JSON.stringify([]));
+      toast.success("Todas as cartas foram apagadas com sucesso!", {
+        duration: 5000,
+      });
+    } catch (error) {
+      console.error('Erro ao limpar todas as cartas:', error);
+      toast.error("Erro ao apagar todas as cartas. Tente novamente.");
+    }
   }
 
   const handleSaveCard = (card: CardClasses) => {
-  
-    if (isCreating) {
-      const newCards = [...cards, card];
-      setCards(newCards);
-      localStorage.setItem("tormentator-cards", JSON.stringify(newCards));
-      toast.success("Carta criada com sucesso!");
-    } else if (selectedCardIndex !== null) {
-      const updatedCards = [...cards];
-      updatedCards[selectedCardIndex] = card;
-      setCards(updatedCards);
-      localStorage.setItem("tormentator-cards", JSON.stringify(updatedCards));
-      toast.success("Carta atualizada com sucesso!");
-    } else {
+    try {
+      if (isCreating) {
+        const newCards = [...cards, card];
+        setCards(newCards);
+        localStorage.setItem("tormentator-cards", JSON.stringify(newCards));
+        toast.success("Carta criada com sucesso!", {
+          duration: 5000,
+        });
+      } else if (selectedCardIndex !== null) {
+        const updatedCards = [...cards];
+        updatedCards[selectedCardIndex] = card;
+        setCards(updatedCards);
+        localStorage.setItem("tormentator-cards", JSON.stringify(updatedCards));
+        toast.success("Carta atualizada com sucesso!", {
+          duration: 5000,
+        });
+      } else {
+        toast.error("Erro ao salvar a carta. Tente novamente.");
+      }
+    } catch (error) {
+      console.error('Erro ao salvar carta:', error);
       toast.error("Erro ao salvar a carta. Tente novamente.");
     }
   }
@@ -235,13 +465,20 @@ export default function CardList() {
 
   const handleConfirmDeleteCard = () => {
     if (selectedCard && selectedCardIndex !== null) {
-      const updatedCards = cards.filter((_, i) => i !== selectedCardIndex);
-      setCards(updatedCards);
-      localStorage.setItem("tormentator-cards", JSON.stringify(updatedCards));
-      toast.success("Carta apagada com sucesso!");
-      setSelectedCard(undefined);
-      setSelectedCardConfig(undefined);
-      setSelectedCardIndex(null);
+      try {
+        const updatedCards = cards.filter((_, i) => i !== selectedCardIndex);
+        setCards(updatedCards);
+        localStorage.setItem("tormentator-cards", JSON.stringify(updatedCards));
+        toast.success("Carta apagada com sucesso!", {
+          duration: 5000,
+        });
+        setSelectedCard(undefined);
+        setSelectedCardConfig(undefined);
+        setSelectedCardIndex(null);
+      } catch (error) {
+        console.error('Erro ao deletar carta:', error);
+        toast.error("Erro ao apagar a carta. Tente novamente.");
+      }
     }
   }
 
@@ -279,7 +516,19 @@ export default function CardList() {
         <div className="max-w-2xl mx-auto p-8">
           <h1 className="text-4xl font-bold mb-8">Suas Cartas</h1>
         </div>
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+        
+        {/* Loading State */}
+        {loading && (
+          <div className="flex flex-col items-center justify-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mb-4"></div>
+            <p className="text-lg text-slate-600 dark:text-slate-400">Carregando suas cartas...</p>
+          </div>
+        )}
+        
+        {/* Main Content - Show only when not loading */}
+        {!loading && (
+          <>
+            <div className="flex flex-wrap justify-center gap-4 mb-12">
           <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
             <DropdownMenuTrigger asChild>
               <Button 
@@ -290,7 +539,10 @@ export default function CardList() {
                 Adicionar Nova Carta
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg">
+            <DropdownMenuContent 
+              className="w-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg" 
+              style={{ zIndex: 9999 }}
+            >
               {menuOption.map((option, index) => (
                 <DropdownMenuItem
                   key={index}
@@ -437,25 +689,48 @@ export default function CardList() {
                       </div>
                       
                       <div className="flex items-center gap-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700"
-                          onClick={handleExportCards}
-                        >
-                          <FileDown className="h-4 w-4 mr-1" />
-                          Exportar
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700"
-                          onClick={handleGeneratePdf}
-                          disabled={isGeneratingPdf}
-                        >
-                          <Download className="h-4 w-4 mr-1" />
-                          {isGeneratingPdf ? "Gerando..." : "PDF"}
-                        </Button>
+                        <DropdownMenu open={exportDropdownOpen} onOpenChange={setExportDropdownOpen}>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700"
+                              disabled={isExporting}
+                            >
+                              <Download className="h-4 w-4 mr-1" />
+                              {isExporting ? `Exportando... (${exportProgress.current}/${exportProgress.total})` : "Exportar"}
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent 
+                            className="w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg shadow-lg" 
+                            style={{ zIndex: 9999 }}
+                          >
+                            <DropdownMenuItem
+                              onSelect={handleExportJSON}
+                              disabled={isExporting}
+                              className="flex items-center gap-3 p-3 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
+                            >
+                              <FileText className="h-4 w-4" />
+                              <span>Exportar JSON</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onSelect={handleExportPDF}
+                              disabled={isExporting}
+                              className="flex items-center gap-3 p-3 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
+                            >
+                              <FileDown className="h-4 w-4" />
+                              <span>Exportar PDF</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onSelect={handleExportPNG}
+                              disabled={isExporting}
+                              className="flex items-center gap-3 p-3 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
+                            >
+                              <FileImage className="h-4 w-4" />
+                              <span>Exportar PNG (ZIP)</span>
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                         <Button
                           size="sm"
                           variant="outline"
@@ -501,7 +776,66 @@ export default function CardList() {
             </div>
           )}
         </div>
+        </>
+        )}
       </div>
+
+      {/* Confirmar Importação de Arquivo Dialog */}
+      <AlertDialog
+        open={isConfirmImportOpen}
+        onOpenChange={(open) => {
+          if (!open) {
+            setPendingImportData(null);
+            setIsConfirmImportOpen(false);
+          }
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogTitle className="text-lg font-semibold">
+            Deseja mesmo importar {pendingImportData?.length || 0} carta{(pendingImportData?.length || 0) !== 1 ? 's' : ''}?
+          </AlertDialogTitle>
+          <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
+            Suas cartas atuais serão mantidas e as novas serão adicionadas ao fim da lista.
+          </p>
+          <div className="mt-6 flex justify-end gap-4">
+            <AlertDialogCancel>
+              Cancelar
+            </AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-purple-500 text-white hover:bg-purple-600 focus:ring-2 focus:ring-purple-500 rounded-md px-4 py-2"
+              onClick={handleConfirmImport}
+            >
+              Importar
+            </AlertDialogAction>
+          </div>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Confirmar Importação de Cartas de Exemplo Dialog */}
+      <AlertDialog
+        open={isConfirmImportExamplesOpen}
+        onOpenChange={setIsConfirmImportExamplesOpen}
+      >
+        <AlertDialogContent>
+          <AlertDialogTitle className="text-lg font-semibold">
+            Deseja mesmo importar {EXAMPLE_CARDS.length} cartas de exemplo?
+          </AlertDialogTitle>
+          <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
+            Suas cartas atuais serão mantidas e as novas serão adicionadas ao fim da lista.
+          </p>
+          <div className="mt-6 flex justify-end gap-4">
+            <AlertDialogCancel>
+              Cancelar
+            </AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-purple-500 text-white hover:bg-purple-600 focus:ring-2 focus:ring-purple-500 rounded-md px-4 py-2"
+              onClick={handleConfirmImportExamples}
+            >
+              Importar
+            </AlertDialogAction>
+          </div>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Confirmar Exclusão de Todas as Cartas Dialog */}
       <AlertDialog
