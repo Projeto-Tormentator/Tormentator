@@ -5,8 +5,6 @@ import { CARD_TYPES } from "./core/CardType";
 import { CardCustomText } from "./fields/CustomText";
 import { CardFontFamilies } from "./fields/types/CardFontFamily";
 import { deepMergeCards } from "@/lib/utils";
-import { CardTextStyles } from "./fields/types/CardTextStyle";
-import { CardTextAligns } from "./fields/types/CardTextAlign";
 
 export interface SkillCardData extends BaseCardData {
   origin: CardCustomText; //Skill origin, e.g., "Habilidades de Goblin"

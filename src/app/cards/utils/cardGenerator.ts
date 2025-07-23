@@ -4,7 +4,7 @@ import { CardClasses } from '@/app/cards/domain/registry';
 import { CARD_SIZE_DATA } from '@/app/cards/domain/core/CardSize';
 import ReactDOM from 'react-dom/client';
 import { Card } from '@/app/cards/components/Card';
-import React, { JSX } from 'react';
+import React from 'react';
 import JSZip from 'jszip';
 
 // Função utilitária para renderizar carta como canvas
@@ -136,7 +136,7 @@ export async function generateCardsPDF(cards: CardClasses[], onProgress?: (curre
 export async function generateCardsJSON(cards: CardClasses[], onProgress?: (current: number, total: number) => void): Promise<void> {
   try {
     onProgress?.(0, cards.length);
-    let exportCards = [];
+    const exportCards = [];
     for (let i = 0; i < cards.length; i++) {
       const card = cards[i];
       exportCards.push(card.export());
@@ -148,6 +148,7 @@ export async function generateCardsJSON(cards: CardClasses[], onProgress?: (curr
     downloadFile(blob, `tormentator-cartas-${getTimestamp()}.json`);
   } catch (error) {
     throw new Error('Erro ao exportar cartas para JSON');
+    console.error('Erro ao exportar cartas para JSON:', error);
   }
 }
 

@@ -1,9 +1,5 @@
 import { CARD_TYPES } from "../core/CardType";
 import { CARD_SIZES } from "../core/CardSize";
-import { CardFontFamilies } from "../fields/types/CardFontFamily";
-import { CardFontWeights } from "../fields/types/CardFontWeight";
-import { CardTextAligns } from "../fields/types/CardTextAlign";
-import { CardTextStyles } from "../fields/types/CardTextStyle";
 import { SkillCard } from "../SkillCard";
 import { PowerCard } from "../PowerCard";
 

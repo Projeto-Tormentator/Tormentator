@@ -19,7 +19,6 @@ import { Card } from "../Card";
 export default function CardList() {
   const [cards, setCards] = useState<CardClasses[]>([]);
   const [printMode, setPrintMode] = useState(false);
-  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [exportProgress, setExportProgress] = useState({ current: 0, total: 0, type: '' });
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -53,6 +52,7 @@ export default function CardList() {
         parsedCards.push(cardInstance);
       } catch (error) {
         invalidIndexes.push(idx);
+        console.error(`Erro ao criar instância da carta no índice ${idx}:`, error);
       }
     });
 
@@ -107,7 +107,7 @@ export default function CardList() {
     };
 
     loadStoredCards();
-  }, []);
+  }, [invalidCardIndexes]);
 
 
   const handleCreateCard = (cardType: CardType) => {
@@ -258,34 +258,6 @@ export default function CardList() {
     setIsConfirmImportExamplesOpen(false);
   }
 
-  const handleExportCards = () => {
-    if (cards.length === 0) {
-      toast.error('Nenhuma carta disponível para exportar.');
-      return;
-    }
-
-    try {
-      const cardsJson = JSON.stringify(cards, null, 2);
-      const blob = new Blob([cardsJson], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `tormentator-cartas-${new Date().toISOString().split('T')[0]}.json`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      URL.revokeObjectURL(url);
-      toast.success('Cartas exportadas com sucesso!', {
-        duration: 5000,
-      });
-    } catch (error) {
-      console.error('Erro ao exportar cartas:', error);
-      toast.error('Erro ao exportar cartas. Tente novamente.');
-    }
-  }
-
   const handleExportJSON = async () => {
     if (cards.length === 0) {
       toast.error('Nenhuma carta disponível para exportar.');
@@ -387,28 +359,7 @@ export default function CardList() {
       setExportProgress({ current: 0, total: 0, type: '' });
     }
   }
-
-  const handleGeneratePdf = async () => {
-    if (cards.length === 0) {
-      toast.error('Nenhuma carta disponível para gerar PDF.');
-      return;
-    }
-
-    setIsGeneratingPdf(true);
-    
-    try {
-      await generateCardsPDF(cards);
-      toast.success('PDF gerado com sucesso!', {
-        duration: 5000,
-      });
-    } catch (error) {
-      console.error('Erro ao gerar PDF:', error);
-      toast.error('Erro ao gerar PDF. Tente novamente.');
-    } finally {
-      setIsGeneratingPdf(false);
-    }
-  }
-
+  
   const handleClearAllCards = () => {
     try {
       setCards([]);
