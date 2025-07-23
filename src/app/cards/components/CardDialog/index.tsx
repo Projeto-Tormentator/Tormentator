@@ -470,7 +470,7 @@ export function CardDialog({
         <DialogHeader>
           <DialogTitle className={`text-2xl ${hasUnsavedChanges ? 'italic' : ''}`}>{isCreating ? "Criando Carta" : "Editando Carta"}{hasUnsavedChanges ? "*" : ""}</DialogTitle>
         </DialogHeader>
-        <div className="w-full flex flex-col h-full lg:flex-row max-h-[80vh] overflow-y-scroll lg:overflow-y-visible">
+        <div className="w-full flex flex-col h-full lg:flex-row max-h-[80vh] overflow-y-scroll lg:overflow-y-visible justify-between items-center">
           <div className="flex flex-col gap-4 custom-scrollbar-accent w-full lg:w-1/2 h-full lg:min-h-[80vh] min-h-fit max-h-fit lg:max-h-[80vh] overflow-y-visible lg:overflow-y-scroll px-4 py-2 bg-white dark:bg-slate-800 rounded-lg rounded-b-none lg:rounded-b-lg lg:rounded-r-none shadow-md pb-12 lg:pb-0">
             {/* TIPO DA CARTA */}
             <div className="mb-4">
