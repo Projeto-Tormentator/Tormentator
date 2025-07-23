@@ -471,7 +471,7 @@ export function CardDialog({
           <DialogTitle className={`text-2xl ${hasUnsavedChanges ? 'italic' : ''}`}>{isCreating ? "Criando Carta" : "Editando Carta"}{hasUnsavedChanges ? "*" : ""}</DialogTitle>
         </DialogHeader>
         <div className="w-full flex flex-col h-full lg:flex-row max-h-[80vh] overflow-y-scroll lg:overflow-y-visible">
-          <div className="flex flex-col gap-4 custom-scrollbar-accent w-full lg:w-1/2 h-full lg:min-h-[80vh] min-h-fit max-h-fit lg:max-h-[80vh] overflow-y-auto px-4 py-2 bg-white dark:bg-slate-800 rounded-lg rounded-b-none lg:rounded-b-lg lg:rounded-r-none shadow-md pb-12 lg:pb-0">
+          <div className="flex flex-col gap-4 custom-scrollbar-accent w-full lg:w-1/2 h-full lg:min-h-[80vh] min-h-fit max-h-fit lg:max-h-[80vh] overflow-y-visible lg:overflow-y-scroll px-4 py-2 bg-white dark:bg-slate-800 rounded-lg rounded-b-none lg:rounded-b-lg lg:rounded-r-none shadow-md pb-12 lg:pb-0">
             {/* TIPO DA CARTA */}
             <div className="mb-4">
               <Label
@@ -748,7 +748,7 @@ export function CardDialog({
             
             
             {/* Botões de Ação */}
-            <div className="flex gap-3 justify-end">
+            <div className="flex gap-3 justify-end flex-col md:flex-row">
               <Button
                 onClick={() => {
                   setConfirmDialogTitle("Deseja redefinir os estilos?");
