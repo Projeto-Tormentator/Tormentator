@@ -125,3 +125,110 @@ html {
     @apply bg-background text-foreground;
   }
 }
+
+
+/* Estilo base para barras de rolagem */
+/* Estilo base para barras de rolagem */
+* {
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--muted-foreground) / 0.4) hsl(var(--muted));
+}
+
+/* Webkit (Chrome, Safari, Edge) */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 6px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.4);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  border: 2px solid hsl(var(--muted));
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.6);
+  border-color: hsl(var(--muted) / 0.8);
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: hsl(var(--muted-foreground) / 0.8);
+}
+
+*::-webkit-scrollbar-corner {
+  background: hsl(var(--muted));
+}
+
+/* Versão mais sutil para elementos menores */
+.custom-scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--muted-foreground) / 0.3) hsl(var(--muted));
+}
+
+.custom-scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar-thin::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 4px;
+}
+
+.custom-scrollbar-thin::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  border: 1px solid hsl(var(--muted));
+}
+
+.custom-scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+.custom-scrollbar-thin::-webkit-scrollbar-thumb:active {
+  background: hsl(var(--muted-foreground) / 0.7);
+}
+
+/* Versão para elementos que precisam de destaque */
+.custom-scrollbar-accent {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary) / 0.4) hsl(var(--muted));
+}
+
+.custom-scrollbar-accent::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar-accent::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 6px;
+}
+
+.custom-scrollbar-accent::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.4);
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  border: 2px solid hsl(var(--muted));
+}
+
+.custom-scrollbar-accent::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.6);
+  border-color: hsl(var(--muted) / 0.8);
+}
+
+.custom-scrollbar-accent::-webkit-scrollbar-thumb:active {
+  background: hsl(var(--primary) / 0.8);
+}
+
+.custom-scrollbar-accent::-webkit-scrollbar-corner {
+  background: hsl(var(--muted));
+}

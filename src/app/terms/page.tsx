@@ -302,12 +302,12 @@ export default function TermsPage() {
                 <li>
                   Discord:{" "}
                   <a 
-                    href={PROJECT_CONFIG.community.discordInvite}
+                    href={PROJECT_CONFIG.community.discord}
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-purple-600 dark:text-purple-400 underline hover:text-purple-800 dark:hover:text-purple-200"
                   >
-                    {PROJECT_CONFIG.community.discordInvite}
+                    {PROJECT_CONFIG.community.discord}
                   </a>
                 </li>
               </ul>

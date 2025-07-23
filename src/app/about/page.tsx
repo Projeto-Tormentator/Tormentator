@@ -45,7 +45,7 @@ export default function AboutPage() {
                 Tormentator
               </span>
             </h1>
-            <p className="text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+            <p className="text-xl text-slate-600 dark:text-slate-100 max-w-2xl mx-auto">
               A história por trás desse HUB de ferramentas para Tormenta 20
             </p>
           </div>
@@ -65,12 +65,12 @@ export default function AboutPage() {
                     O Início da Jornada
                   </h2>
                   <div className="prose prose-lg dark:prose-invert max-w-none">
-                    <p className="text-slate-700 dark:text-slate-300 mb-4">
+                    <p className="text-slate-700 dark:text-slate-100 mb-4">
                       Tudo começou quando eu, <strong>Arthur Santos</strong>, precisei gerar cartas dos poderes e habilidades 
                       de jogadores para uma campanha de Fim dos Tempos. A maioria dos jogadores nunca havia jogado RPG, 
                       e os poucos que tinham experiência jamais haviam jogado Tormenta 20.
                     </p>
-                    <p className="text-slate-700 dark:text-slate-300">
+                    <p className="text-slate-700 dark:text-slate-100">
                       Para tornar a experiência mais acessível e visual, criei cartas baseadas no estilo das cartas de 
                       Pokémon. O resultado foi fantástico - todos adoraram! As cartas transformaram a experiência de 
                       jogo, tornando-a mais intuitiva e divertida.
@@ -93,12 +93,12 @@ export default function AboutPage() {
                     O Desafio
                   </h2>
                   <div className="prose prose-lg dark:prose-invert max-w-none">
-                    <p className="text-slate-700 dark:text-slate-300 mb-4">
+                    <p className="text-slate-700 dark:text-slate-100 mb-4">
                       O tempo passou e, inevitavelmente, perdi o script que gerava as cartas. 
                       Quando precisei criar novas cartas, tive que recomeçar do zero. 
                       Foi nesse momento que uma ideia brilhante surgiu...
                     </p>
-                    <p className="text-slate-700 dark:text-slate-300">
+                    <p className="text-slate-700 dark:text-slate-100">
                       <strong>Por que não criar uma ferramenta web que ajudasse outros mestres com isso?</strong><br />
                       Assim nasceu a visão do que se tornaria o Tormentator.
                     </p>
@@ -120,16 +120,16 @@ export default function AboutPage() {
                     A Inspiração do Nome
                   </h2>
                   <div className="prose prose-lg dark:prose-invert max-w-none">
-                    <p className="text-slate-700 dark:text-slate-300 mb-4">
+                    <p className="text-slate-700 dark:text-slate-100 mb-4">
                       Algum tempo depois, fui ao show do <strong>Massacration</strong>, a Banda da Galera, 
                       e foi lá que me surgiu um lampejo de inspiração! 
                     </p>
-                    <p className="text-slate-700 dark:text-slate-300 mb-4">
+                    <p className="text-slate-700 dark:text-slate-100 mb-4">
                       <strong>Tormentator</strong> - um nome que os próprios deuses do metal dariam para uma música 
                       em homenagem à Tempestade Rubra. A sonoridade era perfeita, combinando a essência do 
                       Tormenta 20 com a força e energia do metal.
                     </p>
-                    <p className="text-slate-700 dark:text-slate-300">
+                    <p className="text-slate-700 dark:text-slate-100">
                       Gostei tanto da ideia que decidi seguir com esse nome para sempre!
                     </p>
                   </div>
@@ -150,11 +150,11 @@ export default function AboutPage() {
                     A Visão do Futuro
                   </h2>
                   <div className="prose prose-lg dark:prose-invert max-w-none">
-                    <p className="text-slate-700 dark:text-slate-300 mb-4">
+                    <p className="text-slate-700 dark:text-slate-100 mb-4">
                       Depois de um tempo, decidi criar o Tormentator oficialmente. Desde o início, 
                       já visualizava que ele poderia se tornar um <strong>HUB para futuras ferramentas</strong>.
                     </p>
-                    <p className="text-slate-700 dark:text-slate-300">
+                    <p className="text-slate-700 dark:text-slate-100">
                       Quem sabe o que nos espera? O potencial é infinito, e a jornada está apenas começando!
                     </p>
                   </div>
@@ -213,7 +213,7 @@ export default function AboutPage() {
                 <h4 className="text-lg text-purple-700 dark:text-purple-300 mb-4">                  
                   Engenheiro de Software, entusiasta de RPG e dono de uma BMW velha.
                 </h4>
-                <p className="text-lg text-slate-700 dark:text-slate-300 mb-4 leading-relaxed">
+                <p className="text-lg text-slate-700 dark:text-slate-100 mb-4 leading-relaxed">
                   Apaixonado por Tormenta20 desde o primeiro contato, sempre tive vontade de ser mais ativo na comunidade, e esse projeto é a realização desse desejo.
                 </p>
                 <p className="text-slate-600 dark:text-slate-400 mb-6">

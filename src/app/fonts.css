@@ -1,0 +1,80 @@
+/* Tormenta 20 Font */
+@font-face {
+  font-family: "Tormenta 20";
+  src: url("/assets/fonts/Tormenta20.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Benguiat Font */
+@font-face {
+  font-family: "Benguiat";
+  src: url("/assets/fonts/Benguiat.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* IowanOldStyleFont - Regular */
+@font-face {
+  font-family: "IowanOldStyle";
+  src: url("/assets/fonts/IowanOldStyleRegular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* IowanOldStyleFont - Bold */
+@font-face {
+  font-family: "IowanOldStyle";
+  src: url("/assets/fonts/IowanOldStyleBold.otf") format("opentype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* IowanOldStyleFont - Italic */
+@font-face {
+  font-family: "IowanOldStyle";
+  src: url("/assets/fonts/IowanOldStyleItalic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* IowanOldStyleFont - Bold Italic */
+@font-face {
+  font-family: "IowanOldStyle";
+  src: url("/assets/fonts/IowanOldStyleBold Italic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* SourceSansProFont - Regular */
+@font-face {
+  font-family: "SourceSansPro";
+  src: url("/assets/fonts/SourceSansProRegular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* SourceSansProFont - Bold */
+@font-face {
+  font-family: "SourceSansPro";
+  src: url("/assets/fonts/SourceSansProBold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* SourceSansProFont - Italic */
+@font-face {
+  font-family: "SourceSansPro";
+  src: url("/assets/fonts/SourceSansProItalic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}

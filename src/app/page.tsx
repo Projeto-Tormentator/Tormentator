@@ -12,6 +12,14 @@ export const metadata: Metadata = {
     title: PROJECT_CONFIG.name,
     description: PROJECT_CONFIG.description,
     url: PROJECT_CONFIG.project.homepage,
+    images: [
+      {
+        url: `${PROJECT_CONFIG.project.homepage}/assets/images/logo-com-fundo.png`,
+        width: 512,
+        height: 512,
+        alt: PROJECT_CONFIG.name,
+      }
+    ],
     siteName: PROJECT_CONFIG.name,
     type: "website",
     locale: "pt_BR",
@@ -34,7 +42,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "google-site-verification-code", // Você pode adicionar seu código de verificação aqui
+    google: "google-site-verification-code",
   },
 };
 

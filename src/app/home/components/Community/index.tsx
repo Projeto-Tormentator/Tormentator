@@ -56,7 +56,7 @@ export default function Community() {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href={PROJECT_CONFIG.community.discordInvite} target="_blank" rel="noopener noreferrer">
+            <Link href={PROJECT_CONFIG.community.discord} target="_blank" rel="noopener noreferrer">
               <Button size="lg" className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white px-8 py-4 text-lg font-semibold shadow-xl hover:shadow-2xl transition-all duration-300">
                 <FaDiscord className="h-5 w-5 mr-2" />
                 Entrar no Discord
@@ -64,7 +64,7 @@ export default function Community() {
             </Link>
             
             <Link href={PROJECT_CONFIG.project.repository} target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" size="lg" className="border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 px-8 py-4 text-lg font-semibold transition-all duration-300">
+              <Button variant="outline" size="lg" className="border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 px-8 py-4 text-lg font-semibold transition-all duration-300">
                 <Code className="h-5 w-5 mr-2" />
                 Contribuir no GitHub
               </Button>

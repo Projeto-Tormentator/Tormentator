@@ -44,7 +44,7 @@ export default function Footer() {
               </Link>
               
               <Link 
-                href={PROJECT_CONFIG.community.discordInvite}
+                href={PROJECT_CONFIG.community.discord}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-purple-100 dark:text-slate-300 hover:text-white dark:hover:text-white transition-colors duration-200 group"
@@ -86,7 +86,7 @@ export default function Footer() {
               <p>
                 <strong className="text-purple-100 dark:text-slate-300">Tormenta20</strong> é uma marca registrada da{" "}
                 <Link 
-                  href={PROJECT_CONFIG.tormenta20.oficialSite}
+                  href={PROJECT_CONFIG.tormenta20.jamboEditora}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-yellow-300 dark:text-yellow-400 hover:text-yellow-200 dark:hover:text-yellow-300 transition-colors duration-200 underline"
@@ -97,7 +97,7 @@ export default function Footer() {
               <p>
                 Visite o{" "}
                 <Link 
-                  href={PROJECT_CONFIG.tormenta20.oficialSite}
+                  href={PROJECT_CONFIG.tormenta20.jamboEditora}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-yellow-300 dark:text-yellow-400 hover:text-yellow-200 dark:hover:text-yellow-300 transition-colors duration-200 underline"
