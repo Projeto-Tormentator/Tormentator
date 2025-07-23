@@ -110,7 +110,6 @@ jobs:
       DISCORD_WEBHOOK_HOMOLOG: ${{ secrets.DISCORD_WEBHOOK_HOMOLOG }}
     steps:
       - name: Notificar Discord
-        if: ${{ secrets.DISCORD_WEBHOOK_HOMOLOG != '' }}
         run: |
           curl -X POST $DISCORD_WEBHOOK_HOMOLOG \
           -H "Content-Type: application/json" \
@@ -196,7 +195,6 @@ jobs:
       DISCORD_WEBHOOK_PROD: ${{ secrets.DISCORD_WEBHOOK_PROD }}
     steps:
       - name: Notificar Discord
-        if: ${{ secrets.DISCORD_WEBHOOK_PROD != '' }}
         run: |
           curl -X POST $DISCORD_WEBHOOK_PROD \
           -H "Content-Type: application/json" \
