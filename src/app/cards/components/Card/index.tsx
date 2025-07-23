@@ -413,18 +413,59 @@ export function Card({ card, isPrintMode = false, onEdit, onDelete, index, isFli
   const renderPreviewMode = () => {
     return (
       <div
-        className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-lg hover:shadow-xl transition-all duration-200 rounded-xl overflow-hidden cursor-pointer group flex flex-col"
+        className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-lg hover:shadow-xl transition-all duration-200 rounded-xl overflow-hidden group flex flex-col relative"
         style={{
           width: `${getCardSize().width}px`,
           height: `${getCardSize().height}px`,
         }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
+
+        
+        <div
+          style={{
+            width: "100%",
+            zIndex: 10,
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            padding: '8px',
+            gap: '4px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'flex-end',
+            transition: 'all 0.3s ease-in-out',
+            opacity: isHovered ? 1 : 0,
+            transform: isHovered ? 'translateY(0)' : 'translateY(-8px)',
+          }}
+        >
+          {onEdit && (
+            <div className="text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-600 shadow-lg hover:shadow-xl rounded-full p-1.5 transition-all duration-300 hover:scale-110"
+              onClick={() => onEdit(card, index!)}
+              >
+              <Pen className="w-4 h-4" />
+            </div>
+          )}
+          {onDelete && (
+            <div className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-500 bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-600 shadow-lg hover:shadow-xl rounded-full p-1.5 transition-all duration-300 hover:scale-110"
+              onClick={() => onDelete(index!)}
+            >
+              <Trash className="w-4 h-4" />
+            </div>
+          )}
+        </div>
+        
         
         {/* Header/Title */}
-        <div className="bg-gradient-to-r from-slate-50/50 to-slate-100/50 dark:from-slate-900/50 dark:to-slate-800/50 border-b border-slate-200 dark:border-slate-700 px-4 py-3">
-          <h3 className="font-semibold text-slate-900 dark:text-slate-100 text-sm text-left group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors truncate">
+        <div className="bg-gradient-to-r from-slate-50/50 to-slate-100/50 dark:from-slate-900/50 dark:to-slate-800/50 border-b border-slate-200 dark:border-slate-700 px-4 py-3 flex flex-row space-between items-center w-full">
+          <div className="font-semibold text-slate-900 dark:text-slate-100 text-sm text-left group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors truncate w-full">
             {card.title.text || "Sem Título"}
-          </h3>
+          </div>
+          <div className={`${card.withBack ? "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200" : "bg-slate-300 text-slate-700 dark:bg-slate-900/50 dark:text-slate-400"} text-xs font-semibold px-2 py-1 rounded mr-2 align-middle w-fit text-nowrap`}>
+            {card.withBack ? "Com Verso" : "Sem Verso"}
+          </div>
         </div>
 
         {/* Content */}
