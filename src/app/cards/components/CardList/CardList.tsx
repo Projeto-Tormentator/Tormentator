@@ -37,7 +37,6 @@ export default function CardList() {
   const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(true);
-  const [invalidCardIndexes, setInvalidCardIndexes] = useState<number[]>([]);
 
   const menuOption = Object.values(CardRegistry);
 
@@ -56,9 +55,7 @@ export default function CardList() {
       }
     });
 
-    setInvalidCardIndexes(invalidIndexes);
-
-    return parsedCards;
+    return { parsedCards, invalidIndexes };
   };
 
   useEffect(() => {
@@ -72,13 +69,13 @@ export default function CardList() {
           });
           
           const parsedData = JSON.parse(storedCards);
-          const parsedCards = cardArrayToObject(parsedData);
+          const { parsedCards, invalidIndexes } = cardArrayToObject(parsedData);
           setCards(parsedCards);
           
           toast.dismiss("loading-cards");
           
-          if (invalidCardIndexes.length > 0) {
-            toast.error(`Algumas cartas não puderam ser carregadas devido a erros de formatação. Verifique os índices: ${invalidCardIndexes.join(', ')}`, {
+          if (invalidIndexes.length > 0) {
+            toast.error(`Algumas cartas não puderam ser carregadas devido a erros de formatação. Verifique os índices: ${invalidIndexes.join(', ')}`, {
               duration: 10000,
             });
           }
@@ -107,7 +104,7 @@ export default function CardList() {
     };
 
     loadStoredCards();
-  }, [invalidCardIndexes]);
+  }, []);
 
 
   const handleCreateCard = (cardType: CardType) => {
@@ -165,7 +162,7 @@ export default function CardList() {
         }
 
         // Usar a função cardArrayToObject para garantir conversão adequada
-        const validCards = cardArrayToObject(importedCards);
+        const { parsedCards: validCards, invalidIndexes } = cardArrayToObject(importedCards);
 
         if (validCards.length === 0) {
           toast.error('Nenhuma carta válida encontrada no arquivo.', { id: toastId });
@@ -182,7 +179,7 @@ export default function CardList() {
         });
         
         if (validCards.length < importedCards.length) {
-          toast.warning(`${importedCards.length - validCards.length} carta(s) ignorada(s) por formato inválido.`);
+          toast.warning(`${importedCards.length - validCards.length} carta(s) ignorada(s) por formato inválido. Cartas inválidas nos índices: ${invalidIndexes.join(', ')}`);
         }
       } catch (error) {
         console.error('Erro ao importar cartas:', error);
@@ -243,7 +240,7 @@ export default function CardList() {
   const handleConfirmImportExamples = () => {
     try {
       // Converter cartas de exemplo usando cardArrayToObject para garantir consistência
-      const convertedExampleCards = cardArrayToObject(EXAMPLE_CARDS);
+      const { parsedCards: convertedExampleCards } = cardArrayToObject(EXAMPLE_CARDS);
       const newCards = [...cards, ...convertedExampleCards];
       
       setCards(newCards);
@@ -359,7 +356,7 @@ export default function CardList() {
       setExportProgress({ current: 0, total: 0, type: '' });
     }
   }
-  
+
   const handleClearAllCards = () => {
     try {
       setCards([]);
