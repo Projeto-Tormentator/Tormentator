@@ -728,7 +728,7 @@ export function CardDialog({
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-4 custom-scrollbar-accent w-full lg:w-1/2 lg:max-w-1/2 h-full min-h-[80vh] lg:max-h-[80vh] px-4 py-2 bg-white dark:bg-slate-800 rounded-lg rounded-t-none lg:rounded-t-lg lg:rounded-l-none shadow-md">
+          <div className="mt-auto lg:mt-0 flex flex-col gap-4 custom-scrollbar-accent w-full lg:w-1/2 lg:max-w-1/2 h-full min-h-[80vh] lg:max-h-[80vh] px-4 py-2 bg-white dark:bg-slate-800 rounded-lg rounded-t-none lg:rounded-t-lg lg:rounded-l-none shadow-md">
             <div className="h-full">
               <div className="text-xl font-semibold text-slate-700 dark:text-slate-100 flex items-center justify-between w-full z-[999]">
                 Preview da Carta
