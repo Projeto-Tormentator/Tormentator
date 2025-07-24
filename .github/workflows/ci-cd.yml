@@ -128,7 +128,8 @@ jobs:
                     "value": "${{ github.sha }}",
                     "inline": true
                   }
-                ]
+                ],
+                "color": 11032055,
               }
             ]
           }'
@@ -202,6 +203,7 @@ jobs:
             "embeds": [
               {
                 "title": "${{ github.event.release.body }}",
+                "color": 11032055,
                 "fields": [
                   {
                     "name": "Versão",
