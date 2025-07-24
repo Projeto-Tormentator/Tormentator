@@ -184,31 +184,32 @@ jobs:
           channelId: live
 
   deploy-prod-discord:
-    name: 📢 Notificar Discord (Produção)
-    runs-on: ubuntu-latest
-    needs: deploy-prod-hosting
-    if: github.event_name == 'release'
-    environment: production
-    env:
-      DISCORD_WEBHOOK_PROD: ${{ secrets.DISCORD_WEBHOOK_PROD }}
-    steps:
-      - name: Notificar Discord
-        run: |
-          curl -X POST $DISCORD_WEBHOOK_PROD \
-          -H "Content-Type: application/json" \
-          -d '{
-            "content": "Nova versão do Tormentator disponível!",
-            "embeds": [
-              {
-                "title": "${{ github.event.release.body }}",
-                "color": 11032055,
-                "fields": [
-                  {
-                    "name": "Versão",
-                    "value": "${{ github.ref_name }}",
-                    "inline": true
-                  }
-                ]
-              }
-            ]
-          }'
+  name: 📢 Notificar Discord (Produção)
+  runs-on: ubuntu-latest
+  needs: deploy-prod-hosting
+  if: github.event_name == 'release'
+  environment: production
+  env:
+    DISCORD_WEBHOOK_PROD: ${{ secrets.DISCORD_WEBHOOK_PROD }}
+  steps:
+    - name: Notificar Discord
+      run: |
+        RELEASE_BODY=$(echo '${{ github.event.release.body }}' | jq -r .)
+        curl -X POST $DISCORD_WEBHOOK_PROD \
+        -H "Content-Type: application/json" \
+        -d '{
+          "content": "Nova versão do Tormentator disponível!",
+          "embeds": [
+            {
+              "title": "'$RELEASE_BODY'",
+              "color": 11032055,
+              "fields": [
+                {
+                  "name": "Versão",
+                  "value": "${{ github.ref_name }}",
+                  "inline": true
+                }
+              ]
+            }
+          ]
+        }'
