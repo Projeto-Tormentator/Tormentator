@@ -194,22 +194,51 @@ jobs:
     steps:
       - name: Notificar Discord
         run: |
-          RELEASE_BODY=$(echo '${{ github.event.release.body }}' | jq -r .)
-          curl -X POST $DISCORD_WEBHOOK_PROD \
+          if [ -z "$DISCORD_WEBHOOK_PROD" ]; then
+            echo "DISCORD_WEBHOOK_PROD não está configurado"
+            exit 1
+          fi
+          
+          # Prepara os dados
+          RELEASE_NAME="${{ github.event.release.name }}"
+          RELEASE_TAG="${{ github.ref_name }}"
+          RELEASE_URL="${{ github.event.release.html_url }}"
+          
+          # Se o nome da release estiver vazio, usa a tag
+          if [ -z "$RELEASE_NAME" ]; then
+            RELEASE_NAME="Release $RELEASE_TAG"
+          fi
+          
+          # Cria e envia a mensagem
+          curl -X POST "$DISCORD_WEBHOOK_PROD" \
           -H "Content-Type: application/json" \
-          -d '{
-            "content": "Nova versão do Tormentator disponível!",
-            "embeds": [
-              {
-                "title": "'$RELEASE_BODY'",
-                "color": 11032055,
-                "fields": [
-                  {
-                    "name": "Versão",
-                    "value": "${{ github.ref_name }}",
-                    "inline": true
-                  }
-                ]
-              }
-            ]
-          }'
+          -d "$(jq -n \
+            --arg content "🚀 Nova versão do Tormentator disponível!" \
+            --arg title "$RELEASE_NAME" \
+            --arg version "$RELEASE_TAG" \
+            --arg url "$RELEASE_URL" \
+            '{
+              content: $content,
+              embeds: [
+                {
+                  title: $title,
+                  description: "A nova versão foi publicada e está disponível para uso!",
+                  color: 3066993,
+                  fields: [
+                    {
+                      name: "📦 Versão",
+                      value: $version,
+                      inline: true
+                    },
+                    {
+                      name: "🔗 Release",
+                      value: ("[Ver no GitHub](" + $url + ")"),
+                      inline: true
+                    }
+                  ],
+                  timestamp: (now | todate)
+                }
+              ]
+            }')" \
+          && echo "✅ Notificação enviada com sucesso!" \
+          || echo "❌ Erro ao enviar notificação"
