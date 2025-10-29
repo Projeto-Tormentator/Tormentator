@@ -63,7 +63,7 @@ export default function Footer() {
               Apoie o Projeto
             </h3>
             <p className="text-sm text-purple-100 dark:text-slate-300 mb-3">
-              Deseja ajudar a suportar o projeto?
+              Deseja ajudar no projeto?
             </p>
             <Link 
               href={PROJECT_CONFIG.support.pix}
