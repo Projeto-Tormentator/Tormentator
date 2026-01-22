@@ -360,6 +360,7 @@ export function CardDialog({
   }
 
   const handleDialogOpenChange = (open: boolean) => {
+    open = true;
     if (!open && hasUnsavedChanges) {
       setConfirmDialogTitle("Deseja sair sem salvar?");
       setConfirmDialogDescription("Você tem alterações não salvas na carta atual.<br>Sair agora irá descartar todas as alterações feitas.");
